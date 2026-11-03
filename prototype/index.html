@@ -1322,7 +1322,6 @@ var DISH_IMG = {
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="bowl-settings.js"></script>
 <script>
 // ---------- 3D bibimbap ----------
 (function () {
@@ -1331,8 +1330,7 @@ var DISH_IMG = {
   var canvas = document.getElementById('bowl3d');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---- Every adjustable number lives here. The tuner (?tune or Shift+T) edits these live;
-  //      bowl-settings.js can override them to make a tuned look the site's default. ----
+  // ---- The bowl's look and motion ----
   var DEFAULTS = {
     mode: 'hover', burst: 0, height: 1, spread: 1, speed: 0.07,
     float: 0.08, floatSpeed: 1, spin: 1, autoRotate: 0, tiltFollow: 0.4,
@@ -1343,17 +1341,7 @@ var DISH_IMG = {
     colors: { carrot: '#ff6a00', spinach: '#1c8a2c', cabbage: '#8e1fa0', radish: '#ffd23f', zucchini: '#9fe05a', beef: '#6e2a0c',
       yolk: '#ffa000', eggWhite: '#ffffff', gochujang: '#d70f1c', rice: '#fbf7ee', pot: '#222020', tray: '#121212' }
   };
-  function merge(into, from) {
-    if (!from || typeof from !== 'object') return into;
-    Object.keys(from).forEach(function (k) {
-      if (k === 'colors') Object.assign(into.colors, from.colors || {});
-      else if (k in into) into[k] = from[k];
-    });
-    return into;
-  }
-  var TUNE = /[?&#]tune\b/.test(location.search + location.hash);
-  var P = merge(JSON.parse(JSON.stringify(DEFAULTS)), window.BOWL_SETTINGS);
-  if (TUNE) { try { merge(P, JSON.parse(localStorage.getItem('kg-bowl-tune') || 'null')); } catch (e) {} }
+  var P = JSON.parse(JSON.stringify(DEFAULTS));
   function noGL() { canvas.hidden = true; document.getElementById('fallbackImg').hidden = false; stage.style.cursor = 'default'; }
   if (!window.THREE) return noGL();
   var renderer;
@@ -1673,22 +1661,6 @@ var DISH_IMG = {
     burstEl.style.animationPlayState = P.starburstSpin ? 'running' : 'paused';
     layout();
   }
-  window.KGBowl = {
-    params: P, defaults: DEFAULTS, apply: apply,
-    replay: function () { if (P.mode !== 'hover') return; target = 1; setTimeout(function () { target = 0; }, 1800); }
-  };
-  function loadTuner() {
-    if (window.KGBowlTuner) return window.KGBowlTuner.toggle();
-    var s1 = document.createElement('script');
-    s1.src = 'https://cdn.jsdelivr.net/npm/lil-gui@0.19.2/dist/lil-gui.umd.min.js';
-    s1.onload = function () { var s2 = document.createElement('script'); s2.src = 'bowl-tuner.js'; document.body.appendChild(s2); };
-    document.body.appendChild(s1);
-  }
-  if (TUNE) loadTuner();
-  document.addEventListener('keydown', function (e) {
-    if (e.shiftKey && (e.key === 'T' || e.key === 't') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) loadTuner();
-  });
-
   var visible = true;
   if (window.IntersectionObserver) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(stage);
   apply();

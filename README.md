@@ -20,6 +20,6 @@ A design concept by Adia for a website for Kimchi Garden, a Korean restaurant in
 
 ## Try it
 
-Open `prototype/index.html`, or run `python3 -m http.server 8123` inside `prototype/`. Add `?tune` to the address, or press Shift+T, for the 3D tuning panel.
+Open `prototype/index.html`, or run `python3 -m http.server 8123` inside `prototype/`.
 
 `prototype/DEPLOY.md` explains how real payments, live reviews and the AI helper would be switched on. API keys belong in the host's settings, never in this repo.
