@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><!-- concept prototype: remove when the restaurant approves a real launch -->
+<title>Kimchi Garden Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Han+Sans&family=Figtree:wght@400;500;600;700;800&family=Neonderthaw&family=Space+Mono:wght@400;700&family=Tilt+Neon&display=swap">
+<style>
+/* Layout: a vintage Korean-flyer website. Yellow halftone hero with the real three-line neon sign and a floating 3D bibimbap, then color-blocked sections (blue, cream, pink, green, red), each one job: about, best sellers, menu, reviews, visit, delivery, FAQ. */
+:root {
+  color-scheme: light;
+  --paper: #fff4dc;
+  --paper-2: #ffe9bf;
+  --ink: #1a1238;
+  --ink-soft: #4a4270;
+  --red: #ec1c24;
+  --red-deep: #b30f18;
+  --yellow: #ffd400;
+  --blue: #1d3fd8;
+  --blue-deep: #142c9e;
+  --green: #0b9e4a;
+  --pink: #ff5cb4;
+  --pink-soft: #ffc2e1;
+  --orange: #ff7a12;
+  --sky: #7cc6ff;
+  --sign: #0c0a0a;
+  --order: #c4501a;        /* burnt orange: every add / order / checkout button (white text 4.7:1) */
+  --order-deep: #a3410f;
+
+  --display: "Anton", "Impact", "Arial Narrow Bold", sans-serif;
+  --kr: "Black Han Sans", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --body: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace;
+  --neon: "Tilt Neon", "Arial Rounded MT Bold", Arial, sans-serif;
+  --script: "Neonderthaw", "Brush Script MT", cursive;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --burst18: polygon(50.0% 0.0%, 56.9% 10.6%, 67.1% 3.0%, 70.0% 15.4%, 82.1% 11.7%, 80.6% 24.3%, 93.3% 25.0%, 87.6% 36.3%, 99.2% 41.3%, 90.0% 50.0%, 99.2% 58.7%, 87.6% 63.7%, 93.3% 75.0%, 80.6% 75.7%, 82.1% 88.3%, 70.0% 84.6%, 67.1% 97.0%, 56.9% 89.4%, 50.0% 100.0%, 43.1% 89.4%, 32.9% 97.0%, 30.0% 84.6%, 17.9% 88.3%, 19.4% 75.7%, 6.7% 75.0%, 12.4% 63.7%, 0.8% 58.7%, 10.0% 50.0%, 0.8% 41.3%, 12.4% 36.3%, 6.7% 25.0%, 19.4% 24.3%, 17.9% 11.7%, 30.0% 15.4%, 32.9% 3.0%, 43.1% 10.6%);
+  --burst12: polygon(50.0% 0.0%, 59.3% 15.2%, 75.0% 6.7%, 75.5% 24.5%, 93.3% 25.0%, 84.8% 40.7%, 100.0% 50.0%, 84.8% 59.3%, 93.3% 75.0%, 75.5% 75.5%, 75.0% 93.3%, 59.3% 84.8%, 50.0% 100.0%, 40.7% 84.8%, 25.0% 93.3%, 24.5% 75.5%, 6.7% 75.0%, 15.2% 59.3%, 0.0% 50.0%, 15.2% 40.7%, 6.7% 25.0%, 24.5% 24.5%, 25.0% 6.7%, 40.7% 15.2%);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+h2, h3 { text-wrap: balance; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Scanned-flyer texture: fine print grain on top, blotchy paper unevenness underneath, darker scanner edges */
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: .42; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 99; mix-blend-mode: multiply; opacity: .5;
+  background-image:
+    radial-gradient(130% 100% at 50% 50%, rgba(0,0,0,0) 62%, rgba(60,40,20,.28) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E"); }
+/* Flyer lettering: fill + fat white outline + hard ink drop, like Korean sale posters */
+.flyer { -webkit-text-stroke: .12em #fff; paint-order: stroke fill; text-shadow: .06em .06em 0 var(--ink), .09em .09em 0 var(--ink); }
+.ribbon { position: absolute; top: 18px; right: -40px; z-index: 2; width: 160px; transform: rotate(45deg); background: var(--red); color: var(--yellow); text-align: center; font: 400 14px/1 var(--kr); letter-spacing: .04em; padding: 7px 0; border-block: 2px solid var(--ink); }
+.ticker.green { background: var(--green); }
+.ticker.green span i { color: var(--yellow); }
+
+/* ---------- Shared pieces ---------- */
+.btn { display: inline-flex; align-items: center; gap: 10px; font: 400 clamp(17px, 1.6vw, 20px)/1 var(--display); letter-spacing: .04em; text-transform: uppercase; text-decoration: none;
+  padding: 15px 22px; border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); transition: transform .12s, box-shadow .12s; cursor: pointer; }
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+.btn.red { background: var(--red); color: #fff; }
+.btn.cream { background: var(--paper); color: var(--ink); }
+.btn.yellow { background: var(--yellow); color: var(--ink); }
+.sticker { display: inline-block; font: 400 15px/1 var(--display); letter-spacing: .05em; text-transform: uppercase; padding: 8px 12px 7px; border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); background: var(--yellow); color: var(--ink); transform: rotate(-3deg); }
+.burst { clip-path: var(--burst18); display: grid; place-items: center; text-align: center; }
+.sec { padding-block: clamp(64px, 9vw, 120px); position: relative; }
+.sec-head { display: grid; gap: 14px; margin-bottom: clamp(32px, 4vw, 48px); max-width: 760px; }
+.sec-head .kr-line { font: 400 clamp(18px, 2vw, 24px)/1 var(--kr); }
+.headline { font: 400 clamp(46px, 7.4vw, 104px)/.92 var(--display); text-transform: uppercase; letter-spacing: .005em; }
+.headline .pop { color: var(--red); }
+.lead { font-size: clamp(17px, 1.5vw, 19px); max-width: 56ch; }
+
+/* ---------- Concept strip + ticker + nav ---------- */
+.concept { background: var(--ink); color: #fff; font: 400 12px/1.4 var(--mono); text-align: center; padding: 7px 16px; letter-spacing: .04em; }
+.ticker { background: var(--red); color: var(--yellow); border-block: 3px solid var(--ink); overflow: hidden; white-space: nowrap; }
+.ticker .track { display: inline-flex; animation: tick 38s linear infinite; }
+.ticker span { font: 400 17px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; padding: 10px 0; }
+.ticker span i { font-style: normal; color: #fff; margin-inline: 18px; }
+@keyframes tick { to { transform: translateX(-50%); } }
+.nav { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 3px solid var(--ink); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.logo { display: inline-flex; align-items: baseline; gap: 10px; text-decoration: none; }
+.logo b { font: 400 26px/1 var(--kr); color: var(--red); }
+.logo span { font: 400 20px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+.nav ul { display: flex; gap: clamp(14px, 2.4vw, 30px); list-style: none; margin: 0; padding: 0; }
+.nav ul a { font: 600 15px/1 var(--body); text-decoration: none; letter-spacing: .02em; padding: 8px 0; border-bottom: 3px solid transparent; }
+.nav ul a:hover { border-bottom-color: var(--red); }
+.nav .btn { padding: 11px 16px; font-size: 16px; box-shadow: 3px 3px 0 var(--ink); }
+
+/* ---------- HERO ---------- */
+.hero { background-color: var(--yellow);
+  background-image: radial-gradient(rgba(236, 28, 36, .22) 1.3px, transparent 1.8px);
+  background-size: 14px 14px; border-bottom: 3px solid var(--ink); overflow: hidden; }
+.hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(20px, 4vw, 48px); align-items: center; padding-block: clamp(12px, 2vw, 24px) clamp(40px, 6vw, 80px); }
+.hero .stage { margin-top: 0; }
+/* Nav links land each section flush under the sticky bar */
+section[id], header[id] { scroll-margin-top: var(--nav-h, 70px); }
+.hero-left { display: grid; gap: 26px; min-width: 0; }
+
+/* The neon sign: a copy of the real one over the door (KOREAN BBQ / KIMCHI GARDEN / RESTAURANT / 2517B) */
+/* Freestanding neon tubes. On a bright page the glow alone disappears, so every tube gets a dark
+   backing outline and a hard drop, like real channel letters seen in daylight. */
+.hero-top { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding-inline: var(--gutter); padding-top: clamp(28px, 4.5vw, 56px); }
+.neon-title { position: relative; display: grid; justify-items: center; text-align: center; gap: clamp(2px, .6vw, 8px); }
+.n { font-family: var(--neon); font-weight: 400; line-height: 1; letter-spacing: .04em; white-space: nowrap;
+  -webkit-text-stroke: .11em var(--ink); paint-order: stroke fill; }
+.n-bbq { font-size: clamp(22px, 3.6vw, 50px); color: #ff4a1c;
+  text-shadow: .05em .07em 0 var(--ink), 0 0 10px rgba(255, 58, 18, .9), 0 0 26px rgba(255, 42, 0, .55); animation: on 1.6s .2s both; }
+.n-name { position: relative; isolation: isolate; font-size: clamp(40px, 10.4vw, 148px); color: #ff1f30; letter-spacing: .015em; -webkit-text-stroke: 0;
+  text-shadow: 0 0 2px #ffb0b6, 0 0 10px rgba(255, 10, 30, .95), 0 0 30px rgba(255, 10, 30, .6); animation: on 1.8s .5s both; }
+.n-name::before { content: attr(data-text); position: absolute; inset: 0; z-index: -1; color: transparent; text-shadow: none;
+  -webkit-text-stroke: .1em #2a5cff;
+  filter: drop-shadow(0 0 6px rgba(42, 92, 255, .9)) drop-shadow(.035em .05em 0 var(--ink)); }
+.n-name .buzz { animation: buzz 6s 3s infinite steps(1); }
+.n-rest { font-size: clamp(28px, 5.6vw, 80px); color: #22e650;
+  text-shadow: .05em .07em 0 var(--ink), 0 0 10px rgba(0, 230, 70, .9), 0 0 26px rgba(0, 209, 61, .5); animation: on 1.6s .9s both; }
+.n-open { position: absolute; right: 0; top: -.1em; font: 400 clamp(38px, 6vw, 92px)/1 var(--script); color: #ff3fd2; transform: rotate(-10deg);
+  -webkit-text-stroke: .05em var(--ink); paint-order: stroke fill;
+  text-shadow: .03em .05em 0 var(--ink), 0 0 10px rgba(255, 43, 208, .9), 0 0 24px rgba(255, 43, 208, .55); animation: on 1.4s 1.2s both, hum 2.6s 3s infinite; }
+.neon-title.small .n-bbq { font-size: clamp(16px, 1.8vw, 22px); }
+.neon-title.small .n-name { font-size: clamp(32px, 3.8vw, 52px); }
+.neon-title.small .n-rest { font-size: clamp(20px, 2.4vw, 30px); }
+@keyframes on { 0% { opacity: .12 } 10% { opacity: 1 } 13% { opacity: .2 } 22% { opacity: 1 } 25% { opacity: .35 } 34%, 100% { opacity: 1 } }
+@keyframes buzz { 0%, 70%, 74%, 100% { opacity: 1 } 71%, 73% { opacity: .18 } 72% { opacity: .7 } }
+@keyframes hum { 50% { opacity: .78 } }
+
+.hero-copy { display: grid; gap: 16px; }
+.hero-copy h2 { font: 400 clamp(30px, 4vw, 52px)/1.02 var(--display); text-transform: uppercase; color: var(--red); }
+.hero-copy h2 .kr { display: block; font: 400 clamp(18px, 2vw, 26px)/1.3 var(--kr); color: var(--red); margin-top: 6px; }
+.hero-copy p { max-width: 46ch; }
+.ctas { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.status { display: inline-flex; align-items: center; gap: 10px; font: 700 13px/1.2 var(--mono); letter-spacing: .04em; text-transform: uppercase; background: var(--paper); border: 3px solid var(--ink); padding: 8px 12px; justify-self: start; }
+.status .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(11, 158, 74, .25); }
+.status.closed .dot { background: var(--red); box-shadow: 0 0 0 3px rgba(236, 28, 36, .25); }
+
+.stage { position: relative; aspect-ratio: 1 / 1.02; max-width: 100%; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.stage.dragging { cursor: grabbing; }
+.stage .bg-burst { position: absolute; inset: 6%; background: var(--red); clip-path: var(--burst18); animation: spin 90s linear infinite; }
+.stage .bg-burst::after { content: ""; position: absolute; inset: 9%; background: var(--orange); clip-path: var(--burst18); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.stage canvas { position: absolute; inset: -12%; width: 124%; height: 124%; pointer-events: none; z-index: 2; }
+.stage .fallback-img { position: absolute; inset: 14%; width: 72%; height: 72%; object-fit: cover; border: 3px solid var(--ink); z-index: 2; }
+.stage .price { position: absolute; z-index: 3; right: -2%; bottom: 6%; width: clamp(108px, 12vw, 148px); aspect-ratio: 1; background: var(--blue); color: var(--yellow); transform: rotate(-10deg); }
+.stage .price span { display: grid; gap: 2px; }
+.stage .price small { font: 400 clamp(14px, 1.4vw, 17px)/1 var(--kr); color: #fff; }
+.stage .price b { font: 400 clamp(26px, 2.8vw, 36px)/1 var(--display); }
+.stage .tag-hot { position: absolute; z-index: 3; left: 0; bottom: 14%; background: var(--pink); transform: rotate(-8deg); }
+
+/* ---------- ABOUT ---------- */
+.about { background-color: var(--blue); color: var(--paper); border-bottom: 3px solid var(--ink);
+  background-image: radial-gradient(rgba(255, 255, 255, .16) 0 9px, transparent 10px); background-size: 48px 48px; background-position: 12px 12px; }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.about .headline { color: var(--paper); text-shadow: 5px 5px 0 var(--ink); }
+.about .headline .pop { color: var(--yellow); }
+.about .kr-line { color: var(--pink-soft); }
+.about p { color: #e9ecff; }
+.facts { display: grid; gap: 18px; }
+.fact { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); padding: 16px 18px; }
+.fact:nth-child(2) { transform: rotate(1.2deg); } .fact:nth-child(3) { transform: rotate(-1deg); }
+.fact .num { width: 64px; aspect-ratio: 1; background: var(--red); color: #fff; font: 400 18px/1 var(--display); letter-spacing: .02em; }
+.fact:nth-child(2) .num { background: var(--green); } .fact:nth-child(3) .num { background: var(--pink); color: var(--ink); }
+.fact h3 { font: 400 22px/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.fact p { color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
+
+/* ---------- BEST SELLERS (catalog grid) ---------- */
+.best { background: var(--paper); border-bottom: 3px solid var(--ink); }
+.best .headline { text-shadow: 4px 4px 0 var(--pink); }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+.card { position: relative; background: #fff; border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); display: grid; grid-template-rows: auto 1fr; transition: transform .15s, box-shadow .15s; min-width: 0; }
+.card:hover { transform: translate(-3px, -3px) rotate(-.6deg); box-shadow: 9px 9px 0 var(--ink); }
+.card-img { position: relative; aspect-ratio: 1; overflow: hidden; border-bottom: 3px solid var(--ink); }
+.card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.card:hover .card-img img { transform: scale(1.06); }
+.card .tag { position: absolute; left: 10px; top: 10px; font-size: 13px; padding: 6px 9px 5px; }
+.card .price { position: absolute; right: -4px; bottom: -4px; width: 86px; aspect-ratio: 1; background: var(--yellow); color: var(--red); font: 400 22px/1 var(--display); transform: rotate(10deg); }
+.card-body { padding: 14px 16px 18px; display: grid; gap: 4px; align-content: start; }
+/* Lotteria-style colored label bar under each photo */
+.card { --bar: var(--green); overflow: hidden; }
+.card:nth-child(4n+2) { --bar: var(--pink); } .card:nth-child(4n+3) { --bar: var(--blue); } .card:nth-child(4n) { --bar: var(--orange); }
+.card .kr { display: block; margin: -14px -16px 8px; padding: 9px 16px 8px; background: var(--bar); color: #fff; font: 400 19px/1.1 var(--kr); border-bottom: 3px solid var(--ink); }
+.card h3 { font: 400 24px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.card p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; margin-top: 4px; }
+.best-foot { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.note { font: 400 12px/1.5 var(--mono); color: var(--ink-soft); }
+
+/* ---------- MENU (tabs + list) ---------- */
+.menu { background: var(--pink); border-bottom: 3px solid var(--ink); }
+.menu .headline { color: var(--ink); text-shadow: 4px 4px 0 var(--yellow); }
+.menu .kr-line { color: var(--blue-deep); }
+.menu-board { background: var(--paper); border: 3px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+.tabs { display: flex; overflow-x: auto; border-bottom: 3px solid var(--ink); scrollbar-width: thin; }
+.tabs button { flex: 0 0 auto; font: 400 17px/1 var(--display); letter-spacing: .05em; text-transform: uppercase; padding: 16px 20px; background: var(--paper-2); border: 0; border-right: 3px solid var(--ink); color: var(--ink); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--red); color: #fff; }
+.tabs button:hover:not([aria-selected="true"]) { background: var(--yellow); }
+.panel { padding: clamp(14px, 3vw, 32px); }
+.items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 4px 16px; padding-block: 14px; border-bottom: 2px dashed rgba(26, 18, 56, .3); align-items: baseline; }
+.item .name { font: 700 18px/1.25 var(--body); }
+.item .name small { font: 400 15px/1 var(--kr); color: var(--red); margin-left: 8px; }
+.item .cost { font: 700 17px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.item .cost.tbd { color: var(--ink-soft); font-weight: 400; }
+.item .desc { grid-column: 1 / -1; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.item .flag { display: inline-block; margin-left: 8px; font: 700 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 3px 6px; border: 2px solid currentColor; vertical-align: 2px; }
+.item .flag.spicy { color: var(--red); } .item .flag.best { color: var(--green); } .item .flag.veg { color: var(--blue); }
+.menu-foot { padding: 0 clamp(14px, 3vw, 32px) clamp(18px, 3vw, 28px); }
+
+/* ---------- REVIEWS ---------- */
+.reviews { background: var(--green); color: var(--paper); border-bottom: 3px solid var(--ink); overflow: hidden; }
+.reviews .headline { color: var(--yellow); text-shadow: 5px 5px 0 var(--ink); }
+.reviews .kr-line { color: var(--paper); }
+.rev-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 26px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; max-width: 560px; }
+.chip { font: 400 15px/1 var(--display); letter-spacing: .05em; text-transform: uppercase; padding: 9px 12px 8px; border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); background: var(--paper); color: var(--ink); cursor: pointer; transition: transform .15s; }
+.chip:hover { transform: translateY(-2px); }
+.chip[aria-pressed="true"] { background: var(--yellow); transform: rotate(-2deg); }
+/* Two rows of review cards drifting in opposite directions; hovering a row stops it so you can read */
+.lanes { display: grid; gap: 8px; }
+.lane { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.lane-track { display: flex; gap: 24px; width: max-content; padding: 16px 12px 22px; animation: lane 70s linear infinite; }
+.lane.rev .lane-track { animation-direction: reverse; animation-duration: 80s; }
+.lane:hover .lane-track, .lane:focus-within .lane-track { animation-play-state: paused; }
+@keyframes lane { to { transform: translateX(-50%); } }
+.rcard { --bar: var(--yellow); width: clamp(260px, 26vw, 340px); flex: none; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink);
+  padding: 18px 20px; display: grid; gap: 10px; align-content: start; transform: rotate(var(--r, -1deg)); transition: transform .2s, box-shadow .2s; }
+.rcard:hover { transform: rotate(0deg) scale(1.04); box-shadow: 9px 9px 0 var(--ink); }
+.rcard .stars { color: var(--red); font-size: 19px; letter-spacing: 2px; line-height: 1; }
+.rcard .stars span { color: rgba(26, 18, 56, .2); }
+.rcard blockquote { margin: 0; font: 600 17px/1.45 var(--body); }
+.rcard .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; font: 700 12px/1.3 var(--mono); color: var(--ink-soft); }
+.rcard .dish { font: 400 13px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; background: var(--bar); padding: 5px 8px 4px; border: 2px solid var(--ink); color: var(--ink); justify-self: start; }
+.rcard .sample { font: 700 9.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; border: 1.5px dashed currentColor; padding: 3px 5px; }
+.rcard.mine { background: var(--yellow); }
+.rcard.pop { animation: pop .7s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes pop { from { transform: scale(.3) rotate(-14deg); opacity: 0; } }
+.lane-empty { padding: 24px var(--gutter); font: 600 16px/1.4 var(--body); }
+.sources { display: flex; flex-wrap: wrap; gap: 14px; }
+.src { display: grid; gap: 6px; min-width: 210px; padding: 14px 16px; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); box-shadow: var(--shadow, 6px 6px 0 var(--ink)); text-decoration: none; transition: transform .12s, box-shadow .12s; }
+.src:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+.src-num { font: 700 15px/1.2 var(--body); }
+.src-go { font: 700 12px/1 var(--mono); color: var(--ink-soft); }
+.src-badge { justify-self: start; font: 800 13px/1 var(--body); letter-spacing: .02em; padding: 5px 8px; color: #fff; }
+.src-badge.yelp { background: #d32323; }
+.src-badge.google { background: #fff; color: #1a1238; border: 2px solid #1a1238; }
+.src-badge.google b:nth-child(1) { color: #4285f4; } .src-badge.google b:nth-child(2) { color: #ea4335; }
+.reviews .chips { margin-bottom: 8px; }
+.chip .n { display: inline-block; min-width: 1.5em; margin-left: 4px; padding: 2px 5px 1px; font: 700 12px/1 var(--mono); background: var(--ink); color: var(--paper); }
+.rcard .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.rcard .read { font: 700 12px/1 var(--mono); color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.rev-actions { display: flex; flex-wrap: wrap; gap: 16px 20px; align-items: center; margin-top: 24px; }
+.rev-actions .more { font-size: 14px; color: #e8f7ee; max-width: 52ch; }
+
+/* ---------- Ask what to order (assistant) ---------- */
+.ask-fab { position: fixed; z-index: 60; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px;
+  font: 400 18px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; padding: 14px 18px; background: var(--yellow); color: var(--ink);
+  border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); cursor: pointer; transform: rotate(-2deg); transition: transform .15s, box-shadow .15s; }
+.ask-fab:hover { transform: rotate(0deg) translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.ask-fab .kr { font: 400 16px/1 var(--kr); color: var(--red); letter-spacing: 0; }
+.ask-fab[aria-expanded="true"] { display: none; }
+.ask { position: fixed; z-index: 61; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: min(400px, calc(100vw - 32px)); height: min(600px, calc(100vh - 110px));
+  display: grid; grid-template-rows: auto 1fr auto auto; background: var(--paper); border: 3px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+.ask-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; background: var(--red); color: #fff; border-bottom: 3px solid var(--ink); }
+.ask-head h2 { margin: 0; font: 400 22px/1 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+.ask-head h2 span { font: 400 16px/1 var(--kr); color: var(--yellow); margin-left: 6px; }
+.ask-close { background: var(--paper); color: var(--ink); border: 2px solid var(--ink); width: 34px; height: 34px; font: 400 20px/1 var(--display); cursor: pointer; }
+.ask-log { overflow-y: auto; padding: 14px; display: grid; gap: 12px; align-content: start; }
+.msg { max-width: 88%; padding: 10px 12px; font-size: 15.5px; line-height: 1.45; border: 2px solid var(--ink); }
+.msg.bot { justify-self: start; background: #fff; box-shadow: 3px 3px 0 var(--ink); }
+.msg.me { justify-self: end; background: var(--yellow); }
+.msg.typing { color: var(--ink-soft); font-style: italic; }
+.picks { display: grid; gap: 8px; margin-top: 10px; }
+.pick { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px; background: var(--paper); border: 2px solid var(--ink); }
+.pick img, .pick .ph { width: 56px; height: 56px; object-fit: cover; border: 2px solid var(--ink); }
+.pick .ph { display: grid; place-items: center; background: var(--pink-soft); font: 400 18px/1 var(--kr); color: var(--red); }
+.pick b { display: block; font: 400 16px/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.pick small { display: block; font: 400 13px/1 var(--kr); color: var(--red); margin-top: 3px; }
+.pick p { margin: 4px 0 0; font-size: 13px; line-height: 1.35; color: var(--ink-soft); }
+.pick .cost { font: 700 14px/1 var(--mono); }
+.ask-suggest { display: flex; gap: 8px; overflow-x: auto; padding: 0 14px 10px; scrollbar-width: thin; }
+.ask-suggest button { flex: none; font: 600 13px/1 var(--body); padding: 8px 10px; background: #fff; color: var(--ink); border: 2px solid var(--ink); cursor: pointer; }
+.ask-suggest button:hover { background: var(--yellow); }
+.ask-form { display: flex; gap: 8px; padding: 10px 14px 14px; border-top: 2px dashed rgba(26, 18, 56, .3); }
+.ask-form input { flex: 1; min-width: 0; font: 500 16px/1.3 var(--body); padding: 10px 12px; border: 3px solid var(--ink); background: #fff; color: var(--ink); }
+.ask-form button { font: 400 16px/1 var(--display); text-transform: uppercase; padding: 0 16px; background: var(--red); color: #fff; border: 3px solid var(--ink); cursor: pointer; }
+.hero .ask-link { font: 700 15px/1.2 var(--body); color: var(--ink); background: none; border: 0; padding: 4px 0; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
+@media (max-width: 560px) {
+  .ask { right: 8px; left: 8px; width: auto; bottom: 8px; height: calc(100vh - 90px); }
+  .ask-fab { right: 12px; bottom: 12px; font-size: 16px; padding: 12px 14px; }
+}
+
+/* ---------- VISIT ---------- */
+.visit { background: var(--paper); border-bottom: 3px solid var(--ink); }
+.visit .headline { text-shadow: 4px 4px 0 var(--sky); }
+.visit-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 3vw, 40px); }
+.map { position: relative; aspect-ratio: 4 / 3; max-width: 100%; background: #ffe7a6; border: 3px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); overflow: hidden; }
+.map .block { position: absolute; background: #ffd36b; border: 2px solid rgba(26, 18, 56, .18); }
+.map .campus { position: absolute; left: 0; right: 0; top: 0; height: 22%; background: #9ee0a8; border-bottom: 2px solid rgba(26, 18, 56, .18); display: grid; align-items: center; justify-items: start; padding-left: 6%; font: 400 15px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: #1d6b33; }
+.map .road { position: absolute; background: var(--paper); }
+.map .road.h { left: 0; right: 0; height: 7%; } .map .road.v { top: 0; bottom: 0; width: 7%; }
+.map .road.main { background: #fff; box-shadow: 0 0 0 2px rgba(26, 18, 56, .25); }
+.map .lbl { position: absolute; font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: rgba(255, 244, 220, .9); padding: 3px 5px; white-space: nowrap; }
+.map .pin { position: absolute; left: 60%; top: 47%; transform: translate(-50%, -100%); display: grid; justify-items: center; gap: 2px; }
+.map .pin .bub { background: var(--red); color: #fff; font: 400 15px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; padding: 8px 10px 7px; border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); white-space: nowrap; }
+.map .pin .stem { width: 4px; height: 18px; background: var(--ink); }
+.map .pin .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--red); border: 3px solid var(--ink); margin-top: -2px; }
+.map-note { position: absolute; left: 10px; bottom: 8px; font: 400 10px/1 var(--mono); color: var(--ink-soft); }
+.info { display: grid; gap: 20px; align-content: start; }
+.addr { background: var(--yellow); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); padding: 20px 22px; display: grid; gap: 8px; }
+.addr h3 { font: 400 28px/1 var(--display); text-transform: uppercase; }
+.addr p { font-size: 17px; }
+.addr .row-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.addr .btn { padding: 11px 14px; font-size: 16px; box-shadow: 3px 3px 0 var(--ink); }
+.hours { border: 3px solid var(--ink); background: #fff; }
+.hours h3 { font: 400 20px/1 var(--display); text-transform: uppercase; letter-spacing: .04em; padding: 14px 18px; border-bottom: 3px solid var(--ink); background: var(--ink); color: var(--yellow); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.hours h3 small { font: 400 15px/1 var(--kr); color: var(--pink-soft); }
+.hours table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+.hours td { padding: 9px 18px; border-bottom: 1px solid rgba(26, 18, 56, .12); font-variant-numeric: tabular-nums; }
+.hours td:last-child { text-align: right; }
+.hours tr.today td { background: var(--red); color: #fff; font-weight: 700; }
+.hours tr.today td:first-child::after { content: "Today"; margin-left: 8px; font: 700 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; background: var(--yellow); color: var(--ink); padding: 3px 5px; vertical-align: 2px; }
+
+/* ---------- ORDER / DELIVERY ---------- */
+.order { background: var(--red); color: #fff; border-bottom: 3px solid var(--ink); overflow: hidden; }
+.order .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
+.order .headline { color: var(--yellow); text-shadow: 5px 5px 0 var(--ink); }
+.order .kr-line { color: #ffd7d9; }
+.order p { color: #ffe9ea; }
+.ways { display: grid; gap: 16px; }
+.way { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; align-items: center; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); padding: 16px 18px; text-decoration: none; transition: transform .12s, box-shadow .12s; }
+a.way:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+.way h3 { font: 400 24px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.way p { color: var(--ink-soft); font-size: 14.5px; grid-column: 1; }
+.way .arrow { grid-row: 1 / span 2; grid-column: 2; font: 400 30px/1 var(--display); color: var(--red); }
+.way:nth-child(1) { background: var(--yellow); }
+
+/* ---------- FAQ ---------- */
+.faq { background: var(--paper-2); border-bottom: 3px solid var(--ink); }
+.faq .headline { text-shadow: 4px 4px 0 var(--green); color: var(--ink); }
+.qa { max-width: 860px; display: grid; gap: 12px; }
+.qa details { background: #fff; border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+.qa summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 20px; font: 700 18px/1.3 var(--body); }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; font: 400 28px/1 var(--display); color: var(--red); transition: transform .2s; flex: none; }
+.qa details[open] summary::after { transform: rotate(45deg); }
+.qa details[open] summary { border-bottom: 2px dashed rgba(26, 18, 56, .3); }
+.qa .a { padding: 14px 20px 18px; color: var(--ink-soft); }
+
+/* ---------- FOOTER ---------- */
+footer { background: var(--ink); color: #d8d3f0; padding-block: clamp(48px, 6vw, 72px) 32px; }
+footer .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr)); gap: 32px; }
+footer h3 { font: 400 18px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--yellow); margin-bottom: 12px; }
+footer p, footer li { font-size: 15px; line-height: 1.7; }
+footer ul { list-style: none; margin: 0; padding: 0; }
+footer a { color: #fff; }
+.fine { grid-column: 1 / -1; border-top: 1px solid rgba(255, 255, 255, .15); padding-top: 20px; font: 400 12px/1.6 var(--mono); color: #9f98c8; }
+
+/* ---------- Google map ---------- */
+.map.gmap { background: #e8e4dc; aspect-ratio: auto; min-height: clamp(360px, 46vw, 520px); }
+.map.gmap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* ---------- Ordering: add buttons, cart drawer, checkout ---------- */
+.add-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font: 400 15px/1 var(--display); letter-spacing: .05em; text-transform: uppercase;
+  padding: 10px 14px; background: var(--red); color: #fff; border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); cursor: pointer; transition: transform .1s, box-shadow .1s; }
+.add-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.add-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.add-btn.sm { font-size: 13px; padding: 6px 9px; border-width: 2px; box-shadow: 2px 2px 0 var(--ink); }
+.add-btn.done { background: var(--green); }
+.add-btn, .btn.red[data-open-cart], .cart .btn.red, .way[data-open-cart] .arrow { background-color: var(--order); }
+.way[data-open-cart] .arrow { background: none; color: var(--order); }
+.add-btn:hover, .btn.red[data-open-cart]:hover, .cart .btn.red:hover { background-color: var(--order-deep); }
+/* Once a dish is in the order, its button stays as "Added" with a − / + stepper that matches the cart */
+.add-wrap { display: inline-flex; justify-self: start; }
+.card .add-wrap { margin-top: 10px; }
+.card .add-wrap .add-btn { margin-top: 0; }
+.added-step { display: inline-flex; align-items: center; gap: 10px; padding: 4px 4px 4px 10px; background: #e5f4e4; border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.added-step[hidden] { display: none !important; }
+.added-step .ok { font: 400 15px/1 var(--display); letter-spacing: .05em; text-transform: uppercase; color: #0a7a3a; white-space: nowrap; }
+.added-step .qty { margin-top: 0; }
+.added-step.sm { gap: 6px; padding: 2px 2px 2px 7px; border-width: 2px; box-shadow: 2px 2px 0 var(--ink); }
+.added-step.sm .ok { font-size: 12px; }
+.added-step.sm .qty button { width: 24px; height: 22px; }
+.added-step.sm .qty span { min-width: 22px; font-size: 12px; }
+.card .add-btn { justify-self: start; margin-top: 10px; }
+.item .add-btn { align-self: center; }
+.cart-count { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; margin-left: 8px; background: var(--yellow); color: var(--ink); font: 700 12px/1 var(--mono); border: 2px solid var(--ink); }
+.cart-count[hidden] { display: none !important; }
+.cart-scrim { position: fixed; inset: 0; z-index: 70; background: rgba(26, 18, 56, .45); }
+.cart { position: fixed; z-index: 71; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); display: grid; grid-template-rows: auto auto 1fr auto;
+  background: var(--paper); border-left: 3px solid var(--ink); box-shadow: -8px 0 0 var(--ink); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.cart-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 14px; background: var(--red); color: #fff; border-bottom: 3px solid var(--ink); }
+.cart-head h2 { margin: 0; font: 400 26px/1 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+.cart-head h2 span { font: 400 18px/1 var(--kr); color: var(--yellow); margin-left: 6px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 3px solid var(--ink); }
+.steps span { padding: 9px 8px; text-align: center; font: 700 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); background: var(--paper-2); }
+.steps span + span { border-left: 2px solid var(--ink); }
+.steps span.on { background: var(--yellow); color: var(--ink); }
+.cart-body { overflow-y: auto; padding: 18px; display: grid; gap: 14px; align-content: start; }
+.cart-foot { padding: 14px 18px 18px; border-top: 3px solid var(--ink); background: #fff; display: grid; gap: 10px; }
+.empty { text-align: center; display: grid; gap: 12px; justify-items: center; padding: 30px 8px; }
+.empty .big { font: 400 54px/1 var(--kr); color: var(--red); }
+.empty p { color: var(--ink-soft); }
+.line { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-bottom: 12px; border-bottom: 2px dashed rgba(26, 18, 56, .25); }
+.line img, .line .ph { width: 52px; height: 52px; object-fit: cover; border: 2px solid var(--ink); }
+.line .ph { display: grid; place-items: center; background: var(--pink-soft); font: 400 20px/1 var(--kr); color: var(--red); }
+.line b { display: block; font: 700 15.5px/1.25 var(--body); }
+.line small { font: 400 13px/1 var(--kr); color: var(--red); }
+.qty { display: inline-flex; align-items: center; margin-top: 6px; border: 2px solid var(--ink); background: #fff; }
+.qty button { width: 28px; height: 26px; border: 0; background: var(--paper-2); font: 700 16px/1 var(--body); color: var(--ink); cursor: pointer; }
+.qty span { min-width: 28px; text-align: center; font: 700 14px/1 var(--mono); }
+.line .amt { font: 700 15px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.mode { display: grid; grid-template-columns: 1fr 1fr; border: 3px solid var(--ink); }
+.mode button { padding: 12px 8px; font: 400 17px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; background: #fff; color: var(--ink); border: 0; cursor: pointer; }
+.mode button + button { border-left: 3px solid var(--ink); }
+.mode button[aria-pressed="true"] { background: var(--ink); color: var(--yellow); }
+.mode-note { font-size: 13.5px; color: var(--ink-soft); }
+.totals { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; font-size: 15px; font-variant-numeric: tabular-nums; }
+.totals .t { font: 400 22px/1 var(--display); text-transform: uppercase; padding-top: 6px; border-top: 2px solid var(--ink); }
+.totals .t + .t { text-align: right; }
+.totals .muted { color: var(--ink-soft); font-size: 13px; }
+.cart .btn { justify-content: center; width: 100%; }
+.cart .btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+.linkish { background: none; border: 0; padding: 4px 0; font: 600 14px/1.2 var(--body); color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; justify-self: center; }
+.fields { display: grid; gap: 12px; }
+.fields label { display: grid; gap: 6px; font: 700 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.fields input, .fields select, .fields textarea { font: 500 16px/1.3 var(--body); padding: 10px 12px; border: 3px solid var(--ink); background: #fff; color: var(--ink); width: 100%; text-transform: none; letter-spacing: 0; }
+.fields .two { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+.fields .err { border-color: var(--red); background: #fff1f1; }
+.pay { border: 3px solid var(--ink); background: #fff; padding: 12px 14px; display: grid; gap: 6px; }
+.pay b { font: 400 17px/1 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+.pay p { font-size: 13.5px; color: var(--ink-soft); }
+.demo-tag { display: inline-block; justify-self: start; font: 700 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 4px 6px; border: 1.5px dashed var(--red); color: var(--red); }
+.form-err { font: 700 13px/1.4 var(--mono); color: var(--red); }
+.done-hero { text-align: center; display: grid; gap: 8px; justify-items: center; padding: 6px 0 4px; }
+.done-hero .burst { width: 150px; aspect-ratio: 1; background: var(--yellow); transform: rotate(-8deg); }
+.done-hero .burst span { font: 400 22px/1.05 var(--kr); color: var(--red); }
+.done-hero h3 { font: 400 30px/1 var(--display); text-transform: uppercase; }
+.done-hero .no { font: 700 15px/1 var(--mono); letter-spacing: .08em; }
+.track { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border: 3px solid var(--ink); background: #fff; }
+.track li { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; font-size: 14.5px; color: var(--ink-soft); }
+.track li + li { border-top: 2px dashed rgba(26, 18, 56, .25); }
+.track li .dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--ink); background: #fff; }
+.track li.done { color: var(--ink); font-weight: 600; }
+.track li.done .dot { background: var(--green); }
+.track li.now .dot { background: var(--yellow); animation: pulse 1s infinite alternate; }
+.track li time { font: 700 12px/1 var(--mono); }
+@keyframes pulse { to { transform: scale(1.25); } }
+.summary { font-size: 14px; color: var(--ink-soft); display: grid; gap: 4px; }
+.toast { position: fixed; z-index: 80; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) rotate(-2deg); background: var(--ink); color: var(--paper); font: 700 14px/1.2 var(--body);
+  padding: 12px 16px; border: 3px solid var(--yellow); box-shadow: 4px 4px 0 var(--yellow); display: flex; gap: 12px; align-items: center; }
+.toast button { font: 400 14px/1 var(--display); text-transform: uppercase; letter-spacing: .04em; background: var(--yellow); color: var(--ink); border: 2px solid var(--paper); padding: 7px 10px; cursor: pointer; }
+.pick .add-wrap { grid-column: 2 / -1; justify-self: start; }
+.item .add-wrap { align-self: center; justify-self: end; }
+@media (max-width: 560px) {
+  .cart { width: 100vw; border-left: 0; box-shadow: none; }
+  .fields .two { grid-template-columns: 1fr; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .hero .wrap, .about .wrap, .reviews-grid, .visit-grid, .order .wrap { grid-template-columns: 1fr; }
+  .hero-left { order: 0; }
+  .stage { order: 1; max-width: 560px; justify-self: center; width: 100%; }
+  .hero .stage { margin-top: 0; }
+  .items { grid-template-columns: 1fr; }
+  footer .wrap { grid-template-columns: 1fr; }
+  .nav ul li.opt { display: none; }
+}
+@media (max-width: 560px) {
+  .nav ul { display: none; }
+  .logo span { display: none; }
+  .cards { grid-template-columns: 1fr; }
+  .stage .price { right: 0; }
+  .hero .n-open { font-size: 32px; top: -.35em; right: -4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .lane { overflow-x: auto; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="concept">Concept prototype by Adia · not the official Kimchi Garden website · menu photos are AI-generated placeholders</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>Open till 12:30 AM<i>✦</i>Order at the kiosk<i>✦</i>Slushes · smoothies · soju<i>✦</i>2517 Durant Ave<i>✦</i>김치가든<i>✦</i>Vegan options<i>✦</i>Big groups welcome<i>✦</i></span>
+    <span>Open till 12:30 AM<i>✦</i>Order at the kiosk<i>✦</i>Slushes · smoothies · soju<i>✦</i>2517 Durant Ave<i>✦</i>김치가든<i>✦</i>Vegan options<i>✦</i>Big groups welcome<i>✦</i></span>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="logo" href="#top"><b>김치가든</b><span>Kimchi Garden</span></a>
+    <ul>
+      <li class="opt"><a href="#best">Best sellers</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li class="opt"><a href="#reviews">Reviews</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <a class="btn red" href="#order" data-open-cart>Order<span class="cart-count" hidden>0</span></a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-top">
+    <h1 class="neon-title" aria-label="Kimchi Garden, Korean BBQ restaurant">
+      <span class="n n-bbq" aria-hidden="true">KOREAN BBQ</span>
+      <span class="n n-name" data-text="KIMCHI GARDEN" aria-hidden="true">KIMCHI <span class="buzz">G</span>ARDEN</span>
+      <span class="n n-rest" aria-hidden="true">RESTAURANT</span>
+      <span class="n-open" aria-hidden="true">Open</span>
+    </h1>
+  </div>
+  <div class="wrap">
+    <div class="hero-left">
+      <div class="hero-copy">
+        <h2><span class="flyer">Late-night Korean eats on Durant</span><span class="kr">버클리 캠퍼스 바로 앞</span></h2>
+        <p>Bibimbap in a sizzling stone bowl, kimbap to go, galbi off the grill and a mango slush to finish. Order at the kiosk, grab a table, stay late.</p>
+        <span class="status" id="status"><span class="dot"></span><span id="statusText">Open daily till 12:30 AM</span></span>
+      </div>
+      <div class="ctas">
+        <a class="btn red" href="#order" data-open-cart>Order online</a>
+        <a class="btn cream" href="#menu">See the menu</a>
+        <button type="button" class="ask-link" data-open-ask>Not sure? Ask what to order</button>
+      </div>
+    </div>
+
+    <div class="stage" id="stage" aria-label="3D bibimbap: a black stone bowl with egg, beef, carrots, spinach, cabbage, zucchini and radish floating up out of it">
+      <div class="bg-burst" aria-hidden="true"></div>
+      <canvas id="bowl3d" aria-hidden="true"></canvas>
+      <img class="fallback-img" id="fallbackImg" src="img/bibimbap.jpg" alt="Dolsot bibimbap in a black stone bowl" hidden>
+      <span class="sticker tag-hot" aria-hidden="true">Hot stone!</span>
+      <div class="burst price" aria-label="Dolsot bibimbap, $20.40"><span><small>돌솥비빔밥</small><b>$20.40</b></span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="sec best" id="best">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sticker" style="justify-self:start;background:var(--pink)">Hot right now</span>
+        <h2 class="headline">What everyone's <span class="pop">ordering</span></h2>
+        <p class="kr-line" style="color:var(--blue)">인기 메뉴 BEST 8</p>
+      </div>
+      <div class="cards">
+        <article class="card" data-dish="Kimchi Fried Rice"><div class="card-img"><img src="img/kimchi-fried-rice.jpg" alt="Kimchi fried rice with a fried egg on a white plate" loading="lazy"><span class="ribbon">인기 폭발!</span><span class="sticker tag" style="background:var(--red);color:#fff">No.1 best</span><span class="burst price">$16.80</span></div>
+          <div class="card-body"><span class="kr">김치볶음밥</span><h3>Kimchi Fried Rice</h3><p>House-made kimchi fried rice with a fried egg on top.</p></div></article>
+        <article class="card" data-dish="Dolsot Bibimbap"><div class="card-img"><img src="img/bibimbap.jpg" alt="Dolsot bibimbap in a black stone bowl with a fried egg" loading="lazy"><span class="sticker tag" style="background:var(--yellow)">Hot stone</span><span class="burst price">$20.40</span></div>
+          <div class="card-body"><span class="kr">돌솥비빔밥</span><h3>Dolsot Bibimbap</h3><p>Veggies and a fried egg over rice in a sizzling stone pot, crispy rice on the bottom.</p></div></article>
+        <article class="card" data-dish="Rice Cake Soup with Dumpling"><div class="card-img"><img src="img/rice-cake-soup.jpg" alt="Rice cake and dumpling soup in a white bowl" loading="lazy"><span class="sticker tag" style="background:var(--sky)">Cozy</span><span class="burst price">$17.40</span></div>
+          <div class="card-body"><span class="kr">떡만두국</span><h3>Rice Cake &amp; Dumpling Soup</h3><p>Rice cakes and dumplings in beef bone broth simmered 12+ hours.</p></div></article>
+        <article class="card" data-dish="Beef Kimbap (2 rolls)"><div class="card-img"><img src="img/beef-kimbap.jpg" alt="Sliced beef kimbap rolls on a white plate" loading="lazy"><span class="sticker tag" style="background:var(--green);color:#fff">To go</span><span class="burst price">$16.80</span></div>
+          <div class="card-body"><span class="kr">소고기 김밥</span><h3>Beef Kimbap</h3><p>Seasoned rice rolled with beef and vegetables. Two rolls.</p></div></article>
+        <article class="card" data-dish="Japchae"><div class="card-img"><img src="img/japchae.jpg" alt="Japchae glass noodles with vegetables" loading="lazy"><span class="sticker tag" style="background:var(--pink)">Fan fave</span><span class="burst price">$15.60</span></div>
+          <div class="card-body"><span class="kr">잡채</span><h3>Japchae</h3><p>Sweet potato glass noodles stir-fried with assorted veggies.</p></div></article>
+        <article class="card" data-dish="BBQ Short Rib Galbi"><div class="card-img"><img src="img/galbi.jpg" alt="Grilled galbi short ribs on a sizzling plate" loading="lazy"><span class="ribbon" style="background:var(--blue)">강력 추천</span><span class="sticker tag" style="background:var(--orange)">Sizzling</span><span class="burst price">$25.20</span></div>
+          <div class="card-body"><span class="kr">LA 갈비</span><h3>BBQ Short Rib Galbi</h3><p>Marinated short ribs off the grill. Rice included.</p></div></article>
+        <article class="card" data-dish="Seafood Pancake"><div class="card-img"><img src="img/seafood-pancake.jpg" alt="Seafood pancake cut into wedges with dipping sauce" loading="lazy"><span class="sticker tag" style="background:var(--yellow)">Share it</span><span class="burst price">$18.00</span></div>
+          <div class="card-body"><span class="kr">해물파전</span><h3>Seafood Pancake</h3><p>Mixed seafood and green onion, pan-fried until crispy.</p></div></article>
+        <article class="card" data-dish="Kimchi Pork Belly"><div class="card-img"><img src="img/kimchi-pork-belly.jpg" alt="Kimchi pork belly stir-fry in a black skillet" loading="lazy"><span class="sticker tag" style="background:var(--red);color:#fff">Spicy</span><span class="burst price">$20.40</span></div>
+          <div class="card-body"><span class="kr">김치 삼겹살</span><h3>Kimchi Pork Belly</h3><p>Stir-fried kimchi and pork belly. Rice included.</p></div></article>
+      </div>
+      <div class="best-foot">
+        <a class="btn yellow" href="#menu">See the full menu</a>
+        <span class="note">Prices from Kimchi Garden's Yelp menu, Oct 2026. Confirm with the restaurant before launch.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec menu" id="menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sticker" style="justify-self:start;background:var(--paper)">The whole thing</span>
+        <h2 class="headline">The menu</h2>
+        <p class="kr-line">메뉴판</p>
+      </div>
+      <div class="menu-board">
+        <div class="tabs" role="tablist" aria-label="Menu categories" id="tabs"></div>
+        <div id="panels"></div>
+        <p class="menu-foot note">The full menu from Kimchi Garden's Yelp listing, Oct 2026. Korean hot dogs: order 5 minutes ahead so the cheese stays crunchy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec about" id="about">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="sticker" style="justify-self:start">Since you asked</span>
+        <h2 class="headline">Down the alley, <span class="pop">up till late</span></h2>
+        <p class="kr-line">골목 안 김치가든</p>
+        <p class="lead">Kimchi Garden is the Korean spot half a block off Telegraph that students have been sending friends to for years. Big portions, fast kitchen and a menu long enough for the whole group to agree on.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span class="burst num">TAP</span><div><h3>Order at the kiosk</h3><p>Pick your food on the screen, pay with a card or phone, then grab it at the counter when your number is called.</p></div></div>
+        <div class="fact"><span class="burst num">12:30</span><div><h3>Open past midnight</h3><p>The kitchen runs until 12:30 AM most nights, and 1:30 AM on Thursdays.</p></div></div>
+        <div class="fact"><span class="burst num">+</span><div><h3>Slushes, smoothies &amp; soju</h3><p>Non-dairy fruit slushes, Korean sweet potato and corn smoothies, plus beer and soju for the table.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec reviews" id="reviews">
+    <div class="wrap">
+      <div class="rev-top">
+        <div class="sec-head" style="margin-bottom:0">
+          <span class="sticker" style="justify-self:start;background:var(--pink)">Word on Durant</span>
+          <h2 class="headline">What people are saying</h2>
+          <p class="kr-line">손님 후기 · Yelp &amp; Google</p>
+        </div>
+        <div class="sources">
+          <a class="src" data-src="yelp" href="https://www.yelp.com/biz/kimchi-garden-berkeley" target="_blank" rel="noopener">
+            <span class="src-badge yelp">Yelp</span>
+            <span class="src-num" id="yelpCount">435 reviews</span>
+            <span class="src-go">Read all on Yelp →</span>
+          </a>
+          <a class="src" data-src="google" href="https://www.google.com/maps/search/?api=1&amp;query=Kimchi+Garden+2517+Durant+Ave+Berkeley+CA" target="_blank" rel="noopener">
+            <span class="src-badge google">Google</span>
+            <span class="src-num" id="googleCount">Google Maps reviews</span>
+            <span class="src-go">Read all on Google →</span>
+          </a>
+        </div>
+      </div>
+      <div class="chips" id="topicChips" role="group" aria-label="Show reviews about"></div>
+    </div>
+    <div class="lanes" id="lanes" aria-label="Reviews from Yelp and Google">
+      <div class="lane"><div class="lane-track" id="lane1"></div></div>
+      <div class="lane rev"><div class="lane-track" id="lane2"></div></div>
+    </div>
+    <div class="wrap">
+      <div class="rev-actions">
+        <a class="btn red" href="https://www.yelp.com/biz/kimchi-garden-berkeley" target="_blank" rel="noopener">Review us on Yelp</a>
+        <a class="btn yellow" href="https://www.google.com/maps/search/?api=1&amp;query=Kimchi+Garden+2517+Durant+Ave+Berkeley+CA" target="_blank" rel="noopener">Review us on Google</a>
+        <p class="more" id="revNote">Once the site is live with Yelp and Google access, these cards fill with real reviews automatically. Cards marked "Sample" only show the layout.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec visit" id="visit">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sticker" style="justify-self:start;background:var(--sky)">Come hungry</span>
+        <h2 class="headline">Visit us <span class="pop">on Durant</span></h2>
+        <p class="kr-line" style="color:var(--red)">오시는 길</p>
+      </div>
+      <div class="visit-grid">
+        <div class="map gmap">
+          <iframe title="Google Map: Kimchi Garden, 2517 Durant Ave, Berkeley" src="https://www.google.com/maps?q=Kimchi+Garden,+2517+Durant+Ave,+Berkeley,+CA+94704&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="info">
+          <div class="addr">
+            <h3>2517 Durant Ave, Ste B</h3>
+            <p>Berkeley, CA 94704 · half a block from Telegraph</p>
+            <p><b>(510) 288-5253</b></p>
+            <div class="row-btns">
+              <a class="btn red" href="https://www.google.com/maps/search/?api=1&amp;query=Kimchi+Garden+2517+Durant+Ave+Berkeley+CA" target="_blank" rel="noopener">Get directions</a>
+              <a class="btn cream" href="tel:+15102885253">Call</a>
+            </div>
+          </div>
+          <div class="hours">
+            <h3>Hours <small>영업시간</small></h3>
+            <table id="hoursTable"><tbody></tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec order" id="order">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="sticker" style="justify-self:start">Stay in, eat well</span>
+        <h2 class="headline">Can't make it <span class="flyer" style="color:var(--yellow);text-shadow:.06em .06em 0 var(--ink)">to Durant?</span></h2>
+        <p class="kr-line">배달 · 포장</p>
+        <p class="lead">Order on this site for pickup or delivery, or use the app you already have.</p>
+      </div>
+      <div class="ways">
+        <a class="way" href="#order" data-open-cart><h3>Order right here</h3><p>Pickup or delivery · pay online</p><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="way" href="https://www.ubereats.com/search?q=Kimchi%20Garden%20Berkeley" target="_blank" rel="noopener"><h3>Uber Eats</h3><p>Delivery across Berkeley</p><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="way" href="https://www.grubhub.com/search?queryText=Kimchi%20Garden%20Berkeley" target="_blank" rel="noopener"><h3>Grubhub</h3><p>Delivery and pickup</p><span class="arrow" aria-hidden="true">→</span></a>
+        <div class="way"><h3>Pick up in person</h3><p>Order at the kiosk or call (510) 288-5253</p><span class="arrow" aria-hidden="true">✦</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec faq" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sticker" style="justify-self:start;background:var(--green);color:#fff">Good to know</span>
+        <h2 class="headline">Questions?</h2>
+      </div>
+      <div class="qa">
+        <details><summary>How does ordering work?</summary><p class="a">Order and pay at a self-serve kiosk when you walk in, then pick up your food at the counter when your number is called. Water and utensils are self-serve.</p></details>
+        <details><summary>How late are you open?</summary><p class="a">Until 12:30 AM most nights and 1:30 AM on Thursdays. On Sundays we take a break from 3:30 to 5 PM. See the full hours above.</p></details>
+        <details><summary>Do you have vegan or vegetarian options?</summary><p class="a">Yes. The menu marks the vegetarian picks: fried seaweed rolls and waffle fries (both vegan), cheese sticks, vegetable kimbap, vegetable dumplings and the tofu mayo bowl. The fruit slushes are non-dairy. Ask at the counter about anything else.</p></details>
+        <details><summary>Do you take reservations for groups?</summary><p class="a">Yes. Kimchi Garden is great for groups. Call ahead for big parties so we can save you a few tables.</p></details>
+        <details><summary>Do you serve alcohol?</summary><p class="a">We serve beer, soju and cocktails. Bring a valid ID.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="ticker green" aria-hidden="true">
+  <div class="track">
+    <span>맛있습니다!!!<i>✦</i>양이 많습니다!!!<i>✦</i>Fresh every day<i>✦</i>빨리 나옵니다!!!<i>✦</i>Open till 12:30 AM<i>✦</i>단체 환영<i>✦</i></span>
+    <span>맛있습니다!!!<i>✦</i>양이 많습니다!!!<i>✦</i>Fresh every day<i>✦</i>빨리 나옵니다!!!<i>✦</i>Open till 12:30 AM<i>✦</i>단체 환영<i>✦</i></span>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="neon-title small" aria-hidden="true" style="justify-items:start;text-align:left">
+      <span class="n n-bbq">KOREAN BBQ</span>
+      <span class="n n-name" data-text="KIMCHI GARDEN">KIMCHI GARDEN</span>
+      <span class="n n-rest">RESTAURANT</span>
+    </div>
+    <div>
+      <h3>Find us</h3>
+      <p>2517 Durant Ave, Ste B<br>Berkeley, CA 94704<br>(510) 288-5253</p>
+    </div>
+    <div>
+      <h3>Jump to</h3>
+      <ul><li><a href="#menu">Menu</a></li><li><a href="#best">Best sellers</a></li><li><a href="#visit">Hours &amp; location</a></li><li><a href="#order">Order online</a></li></ul>
+    </div>
+    <p class="fine">Concept prototype by Adia, not affiliated with Kimchi Garden. Menu, prices and hours from Yelp (Oct 2026); dish photos are AI-generated placeholders until the restaurant's own photos are in.</p>
+  </div>
+</footer>
+
+<button type="button" class="ask-fab" id="askFab" aria-expanded="false" aria-controls="ask"><span class="kr">뭐 먹지?</span>What should I eat?</button>
+<section class="ask" id="ask" role="dialog" aria-label="Ask what to order" hidden>
+  <div class="ask-head">
+    <h2>What should I eat?<span>뭐 먹지?</span></h2>
+    <button type="button" class="ask-close" id="askClose" aria-label="Close">×</button>
+  </div>
+  <div class="ask-log" id="askLog" aria-live="polite">
+    <div class="msg bot">Tell me what you're in the mood for: the weather, a craving, your budget, or who you're eating with. I'll pick from the menu.</div>
+  </div>
+  <div class="ask-suggest" aria-label="Try asking">
+    <button type="button">It's cold, I want soup</button>
+    <button type="button">Something spicy</button>
+    <button type="button">Cheap and filling</button>
+    <button type="button">Sharing with 4 friends</button>
+    <button type="button">Not spicy at all</button>
+    <button type="button">Something sweet</button>
+  </div>
+  <form class="ask-form" id="askForm">
+    <label class="sr-only" for="askInput">Ask about the menu</label>
+    <input id="askInput" autocomplete="off" placeholder="e.g. it's raining and I'm starving">
+    <button type="submit">Ask</button>
+  </form>
+</section>
+
+<div class="cart-scrim" id="cartScrim" hidden></div>
+<aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cartTitle" hidden>
+  <div class="cart-head">
+    <h2 id="cartTitle">Your order<span>주문</span></h2>
+    <button type="button" class="ask-close" id="cartClose" aria-label="Close your order">×</button>
+  </div>
+  <div class="steps" aria-hidden="true"><span data-step="bag">1 · Order</span><span data-step="details">2 · Details</span><span data-step="done">3 · Done</span></div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-foot" id="cartFoot"></div>
+</aside>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="menu.js"></script>
+<script>
+(function () {
+  var tabs = document.getElementById('tabs'), panels = document.getElementById('panels');
+  function money(v) { return v == null ? 'Ask' : '$' + v.toFixed(2); }
+  MENU.forEach(function (cat, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.role = 'tab'; b.id = 'tab-' + cat.id; b.textContent = cat.label;
+    b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'panel-' + cat.id); b.setAttribute('aria-selected', String(i === 0)); b.tabIndex = i === 0 ? 0 : -1;
+    tabs.appendChild(b);
+    var p = document.createElement('div');
+    p.className = 'panel'; p.id = 'panel-' + cat.id; p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', b.id); p.hidden = i !== 0;
+    var ul = document.createElement('ul'); ul.className = 'items';
+    cat.items.forEach(function (it) {
+      var li = document.createElement('li'); li.className = 'item';
+      var flag = it[4] ? '<span class="flag ' + it[4] + '">' + ({ best: 'Best', spicy: 'Spicy', veg: 'Vegetarian' }[it[4]]) + '</span>' : '';
+      li.innerHTML = '<span class="name">' + it[0] + '<small>' + it[1] + '</small>' + flag + '</span>' +
+        '<span class="cost' + (it[2] == null ? ' tbd' : '') + '">' + money(it[2]) + '</span>' +
+        (it[2] != null ? '<button type="button" class="add-btn sm" data-add="' + it[0] + '" aria-label="Add ' + it[0] + ' to order">+ Add</button>' : '<span></span>') +
+        '<span class="desc">' + it[3] + '</span>';
+      ul.appendChild(li);
+    });
+    p.appendChild(ul); panels.appendChild(p);
+  });
+  var btns = Array.prototype.slice.call(tabs.querySelectorAll('button'));
+  function select(i) {
+    btns.forEach(function (b, j) {
+      b.setAttribute('aria-selected', String(i === j)); b.tabIndex = i === j ? 0 : -1;
+      document.getElementById(b.getAttribute('aria-controls')).hidden = i !== j;
+    });
+    btns[i].focus({ preventScroll: true });
+  }
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () { select(i); });
+    b.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') select((i + 1) % btns.length);
+      if (e.key === 'ArrowLeft') select((i - 1 + btns.length) % btns.length);
+    });
+  });
+})();
+
+// Keep anchor jumps aligned with the real height of the sticky nav
+(function () {
+  var nav = document.querySelector('.nav');
+  function setNav() { document.documentElement.style.setProperty('--nav-h', (nav.offsetHeight - 3) + 'px'); }
+  setNav(); window.addEventListener('resize', setNav);
+})();
+
+// ---------- Reviews from Yelp and Google ----------
+// On the live site, /api/reviews (see api/reviews.js) returns real reviews from the Yelp and Google APIs.
+// Until then the wall shows one real Yelp excerpt plus cards clearly marked "Sample".
+var YELP_URL = 'https://www.yelp.com/biz/kimchi-garden-berkeley';
+var GOOGLE_URL = 'https://www.google.com/maps/search/?api=1&query=Kimchi+Garden+2517+Durant+Ave+Berkeley+CA';
+var REVIEWS = [
+  { src: 'yelp', text: 'Love their kimchi omurice.', who: 'Lily Z.', when: 'Oct 2025', stars: 0, url: YELP_URL, real: true },
+  { src: 'google', text: 'The kimchi fried rice is huge. I always end up with lunch for tomorrow too.', stars: 5 },
+  { src: 'yelp', text: 'Ordered at the kiosk and had my bibimbap in under ten minutes. Still sizzling.', stars: 5 },
+  { src: 'google', text: 'Came with eight friends after a show and they pushed tables together for us at 11 PM.', stars: 5 },
+  { src: 'yelp', text: 'The mango slush is non-dairy. Finally a sweet drink near campus I can actually have.', stars: 4 },
+  { src: 'google', text: 'Galbi came out on a hot plate, smoking. Split a pancake with the table and we were done.', stars: 5 },
+  { src: 'yelp', text: 'My study-break spot. Tteokbokki with cheese at midnight is unbeatable.', stars: 5 },
+  { src: 'google', text: 'Japchae and a Milkis between classes. Quick, cheap, and the noodles are glossy and sweet.', stars: 4 },
+  { src: 'yelp', text: 'Got the Korean fried chicken for four of us. Eight huge pieces and nobody left hungry.', stars: 5 },
+  { src: 'google', text: 'Kitchen still open at 12 on a Tuesday. Kimbap to go for the walk home.', stars: 5 }
+];
+(function () {
+  var lane1 = document.getElementById('lane1'), lane2 = document.getElementById('lane2');
+  var chipBox = document.getElementById('topicChips');
+  var filter = 'all';
+  // Reviews are grouped by what they talk about, so similar reviews sit together.
+  // Works on live Yelp/Google text too: each review joins every topic whose words it uses.
+  var TOPICS = [
+    { id: 'all', label: 'All reviews' },
+    { id: 'portions', label: 'Huge portions', re: /\b(huge|big|portions?|filling|leftovers?|lunch for tomorrow|enough for)\b/i },
+    { id: 'fast', label: 'Fast & easy', re: /\b(fast|quick|quickly|minutes|kiosk|speedy|efficient|between classes)\b/i },
+    { id: 'groups', label: 'Great for groups', re: /\b(friends|group|groups|table|family|share|split|four|eight)\b/i },
+    { id: 'late', label: 'Late night', re: /\b(midnight|late|11 ?pm|12 on|night|after a show|still open)\b/i },
+    { id: 'sweets', label: 'Drinks & sweets', re: /\b(boba|bingsu|dessert|sweet|slush|smoothie|shake|milk ?tea|hotteok|drink)\b/i },
+    { id: 'spicy', label: 'Spicy', re: /\b(spicy|spice|tteokbokki|heat|gochujang)\b/i }
+  ];
+  function topicsOf(r) { return TOPICS.filter(function (t) { return t.re && t.re.test(r.text); }).map(function (t) { return t.id; }); }
+  function drawChips() {
+    chipBox.innerHTML = TOPICS.map(function (t) {
+      var n = t.id === 'all' ? REVIEWS.length : REVIEWS.filter(function (r) { return topicsOf(r).indexOf(t.id) > -1; }).length;
+      if (!n) return '';
+      return '<button type="button" class="chip" data-topic="' + t.id + '" aria-pressed="' + (filter === t.id) + '">' + t.label + ' <span class="n">' + n + '</span></button>';
+    }).join('');
+  }
+  chipBox.addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    filter = b.getAttribute('data-topic'); drawChips(); render();
+  });
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function badge(src) { return src === 'yelp' ? '<span class="src-badge yelp">Yelp</span>' : '<span class="src-badge google"><b>G</b><b>o</b>ogle</span>'; }
+  function card(r, i, clone) {
+    var stars = r.stars ? '<div class="stars" aria-label="' + r.stars + ' out of 5 stars">' + '★'.repeat(r.stars) + '<span>' + '★'.repeat(5 - r.stars) + '</span></div>' : '';
+    var url = r.url || (r.src === 'yelp' ? YELP_URL : GOOGLE_URL);
+    var who = r.real ? esc(r.who) + (r.when ? ' · ' + esc(r.when) : '') : '<span class="sample">Sample</span>';
+    return '<article class="rcard"' + (clone ? ' aria-hidden="true"' : '') + ' style="--r:' + (i % 2 ? 1.2 : -1.2) + 'deg">' +
+      '<div class="top">' + badge(r.src) + stars + '</div>' +
+      '<blockquote>' + esc(r.text) + '</blockquote>' +
+      '<div class="meta"><span>' + who + '</span><a class="read" href="' + esc(url) + '" target="_blank" rel="noopener"' + (clone ? ' tabindex="-1"' : '') + '>Read on ' + (r.src === 'yelp' ? 'Yelp' : 'Google') + ' →</a></div></article>';
+  }
+  function fill(track, list, offset) {
+    if (!list.length) { track.innerHTML = ''; return; }
+    var row = list.slice(); while (row.length < 6) row = row.concat(list);
+    track.innerHTML = row.map(function (r, i) { return card(r, i + offset, false); }).join('') +
+      row.map(function (r, i) { return card(r, i + offset, true); }).join('');   // two copies so the loop is seamless
+  }
+  function render() {
+    var list = filter === 'all' ? REVIEWS : REVIEWS.filter(function (r) { return topicsOf(r).indexOf(filter) > -1; });
+    var a = list.filter(function (_, i) { return i % 2 === 0; }), b = list.filter(function (_, i) { return i % 2 === 1; });
+    fill(lane1, a, 0); fill(lane2, b.length ? b : a, 1);
+  }
+  drawChips(); render();
+
+  // Live reviews, when the site runs with its api/ folder deployed
+  if (location.protocol.indexOf('http') === 0) {
+    fetch('/api/reviews').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (!d || !Array.isArray(d.reviews) || !d.reviews.length) return;
+      REVIEWS = d.reviews.map(function (r) { return { src: r.src, text: r.text, who: r.author, when: r.when, stars: r.rating, url: r.url, real: true }; });
+      if (d.yelp && d.yelp.count) document.getElementById('yelpCount').textContent = '★ ' + d.yelp.rating + ' · ' + d.yelp.count + ' reviews';
+      if (d.google && d.google.count) document.getElementById('googleCount').textContent = '★ ' + d.google.rating + ' · ' + d.google.count + ' reviews';
+      document.getElementById('revNote').textContent = 'Latest reviews from Yelp and Google. Tap a card to read the whole review.';
+      filter = 'all'; drawChips(); render();
+    }).catch(function () {});
+  }
+})();
+
+// ---------- Ask what to order ----------
+// Describes each dish for the helper: what it is and when it hits the spot.
+// What each dish is like, for the order helper. Dishes not listed take their category's tags.
+var DISH_TAGS = {
+  'Kimchi Fried Rice': ['rice', 'filling', 'tangy', 'egg', 'late'],
+  'Kimchi Omelette': ['rice', 'filling', 'egg', 'tangy', 'comfort'],
+  'Omelette Fried Rice': ['rice', 'filling', 'egg', 'mild', 'comfort'],
+  'Bibimbap': ['rice', 'veggies', 'egg', 'filling', 'light'],
+  'Dolsot Bibimbap': ['rice', 'veggies', 'warm', 'egg', 'filling', 'crispy'],
+  'BBQ Short Rib Galbi': ['meat', 'beef', 'grill', 'share', 'treat'],
+  'BBQ Beef (Bulgogi)': ['meat', 'beef', 'grill', 'mild', 'rice'],
+  'BBQ Chicken': ['meat', 'chicken', 'grill', 'mild', 'rice'],
+  'Spicy Chicken': ['meat', 'chicken', 'grill', 'rice'],
+  'BBQ Spicy Pork': ['meat', 'pork', 'rice', 'filling'],
+  'Pork Belly': ['meat', 'pork', 'grill', 'mild', 'rice'],
+  'Kimchi Pork Belly': ['meat', 'pork', 'tangy', 'share', 'rice'],
+  'Spicy Pork Belly': ['meat', 'pork', 'rice'],
+  'Spicy Stir-fried Squid': ['seafood', 'rice'],
+  'Tofu Soup': ['soup', 'warm', 'comfort', 'egg'],
+  'Mala Tofu Soup': ['soup', 'warm', 'comfort'],
+  'Kimchi Stew': ['soup', 'warm', 'tangy', 'comfort'],
+  'Mala Kimchi Stew': ['soup', 'warm', 'tangy'],
+  'Rice Cake Soup with Dumpling': ['soup', 'warm', 'mild', 'comfort', 'beef'],
+  'Beef Bone Soup': ['soup', 'warm', 'mild', 'comfort', 'beef', 'noodles'],
+  'Japchae': ['noodles', 'quick', 'light', 'veggies'],
+  'Spicy Vegetable Ramen': ['noodles', 'soup', 'warm', 'quick', 'cheap'],
+  'Seafood Pancake': ['share', 'crispy', 'seafood', 'snack'],
+  'Kimchi Pancake': ['share', 'crispy', 'tangy', 'snack'],
+  'Kimchi & Seafood Pancake': ['share', 'crispy', 'seafood', 'tangy', 'snack'],
+  'Hotteok (2 pcs)': ['sweet', 'warm', 'dessert', 'snack', 'cheap'],
+  'Korean Fried Chicken': ['crispy', 'share', 'chicken', 'meat', 'late', 'filling'],
+  'Sweet N Spicy Fried Chicken': ['crispy', 'share', 'chicken', 'meat', 'late'],
+  'Soy Garlic Fried Chicken': ['crispy', 'share', 'chicken', 'meat', 'mild'],
+  'Tonkatsu': ['meat', 'pork', 'crispy', 'mild', 'filling'],
+  'Spicy Dukbokgi': ['snack', 'late', 'chewy', 'share'],
+  'Rose Dukbokgi': ['snack', 'late', 'chewy', 'mild', 'share'],
+  'Mala Spicy Dukbokgi': ['snack', 'late', 'chewy', 'noodles'],
+  'Milkis': ['drink', 'cold', 'cheap'],
+  'Strawberry Milk': ['drink', 'sweet', 'cold']
+};
+var CAT_TAGS = {
+  apps: ['snack', 'share', 'crispy'], hotdogs: ['snack', 'quick', 'togo', 'cheap', 'crispy', 'late'], dukbokgi: ['snack', 'chewy', 'share'],
+  rice: ['rice', 'filling'], bbq: ['meat', 'grill', 'rice'], soup: ['soup', 'warm', 'comfort'], bibimbap: ['rice', 'veggies'],
+  kimbap: ['togo', 'quick', 'rice', 'light'], noodles: ['noodles'], chicken: ['crispy', 'share', 'chicken', 'meat'],
+  bowls: ['rice', 'quick', 'filling'], drinks: ['drink', 'cold', 'sweet'], kimchi: ['togo']
+};
+var DISH_IMG = {
+  'Kimchi Fried Rice': 'img/kimchi-fried-rice.jpg', 'Dolsot Bibimbap': 'img/bibimbap.jpg', 'Rice Cake Soup with Dumpling': 'img/rice-cake-soup.jpg',
+  'Beef Kimbap (2 rolls)': 'img/beef-kimbap.jpg', 'Japchae': 'img/japchae.jpg', 'BBQ Short Rib Galbi': 'img/galbi.jpg',
+  'Seafood Pancake': 'img/seafood-pancake.jpg', 'Kimchi Pork Belly': 'img/kimchi-pork-belly.jpg'
+};
+(function () {
+  var ITEMS = [];
+  MENU.forEach(function (cat) { cat.items.forEach(function (it) {
+    var tags = (DISH_TAGS[it[0]] || CAT_TAGS[cat.id] || []).slice();
+    if (it[4] === 'spicy') tags.push('spicy'); else if (cat.id !== 'drinks') tags.push('mild');
+    if (it[4] === 'veg') tags.push('veg');
+    if (/vegetable/i.test(it[0])) tags.push('veggies');
+    ITEMS.push({ name: it[0], kr: it[1], price: it[2], desc: it[3], best: it[4] === 'best', tags: tags });
+  }); });
+  var byName = {}; ITEMS.forEach(function (it) { byName[it.name.toLowerCase()] = it; });
+
+  // Plain-language cues → what the person is after. Order matters: the first cue found leads the reply.
+  var CUES = [
+    { re: /\b(cold|chilly|freezing|rain(y|ing)?|sick|under the weather|warm me|cozy|soup|stew|broth|soupy)\b/, tag: 'soup', lead: 'Something warm and brothy, coming up:', why: 'Hot broth for a cold night.' },
+    { re: /\b(not spicy|no spice|mild|not too spicy|can'?t (do|handle) spic)/, tag: 'mild', lead: 'No heat, all flavor:', why: 'Savory, no spice.', avoid: 'spicy' },
+    { re: /\b(spicy|spice|kick|heat|fire|fiery|hot sauce|gochujang)\b/, tag: 'spicy', lead: 'You want heat. These bring it:', why: 'Real gochujang heat.' },
+    { re: /\b(sweet|dessert|sugar|treat|after dinner)\b/, tag: 'sweet', lead: 'Sweet tooth? Try these:', why: 'Something sweet to finish.' },
+    { re: /\b(drink|thirsty|boba|tea|soda|beverage)\b/, tag: 'drink', lead: 'To drink:', why: 'Easy to sip with anything.' },
+    { re: /\b(soju|beer|alcohol|drinks? with)\b/, tag: 'alcohol', lead: 'For the table (bring your ID):', why: 'Goes with BBQ and fried chicken.' },
+    { re: /\b(share|sharing|friends|group|party|table|split)\b/, tag: 'share', lead: 'Good for the whole table:', why: 'Easy to split.' },
+    { re: /\b(quick|fast|class|in a hurry|to go|takeout|walk|grab)\b/, tag: 'togo', lead: 'Quick and easy to carry:', why: 'Fast to eat on the go.' },
+    { re: /\b(starving|hungry|filling|big|huge|a lot|full)\b/, tag: 'filling', lead: 'These will fill you up:', why: 'Big, filling plate.' },
+    { re: /\b(light|healthy|not too heavy|veggie|veggies|vegetables|fresh)\b/, tag: 'light', lead: 'Lighter picks:', why: 'Lighter, with plenty of veggies.' },
+    { re: /\b(noodle|noodles)\b/, tag: 'noodles', lead: 'Noodles:', why: 'Chewy glass noodles.' },
+    { re: /\b(rice)\b/, tag: 'rice', lead: 'Rice dishes:', why: 'Comfort food over rice.' },
+    { re: /\b(bbq|barbecue|grill|grilled|meat|beef|steak)\b/, tag: 'grill', lead: 'Straight off the grill:', why: 'Marinated and grilled.' },
+    { re: /\b(chicken)\b/, tag: 'chicken', lead: 'Chicken it is:', why: 'Chicken, done right.' },
+    { re: /\b(pork)\b/, tag: 'pork', lead: 'Pork lovers:', why: 'Rich, porky goodness.' },
+    { re: /\b(seafood|shrimp|squid|fish)\b/, tag: 'seafood', lead: 'From the sea:', why: 'Seafood in every bite.' },
+    { re: /\b(crispy|crunchy|fried)\b/, tag: 'crispy', lead: 'Crunchy picks:', why: 'Crispy all over.' },
+    { re: /\b(late|midnight|night|after a show|studying|study)\b/, tag: 'late', lead: 'Late-night favorites:', why: 'A late-night classic.' },
+    { re: /\b(snack|small|appetizer|side)\b/, tag: 'snack', lead: 'Something small:', why: 'Snack-sized.' }
+  ];
+  var CHEAP = /\b(cheap|budget|broke|affordable|under \$?\d+|inexpensive)\b/;
+  var VEG = /\b(vegetarian|vegan|no meat|plant[- ]based|veggie only)\b/;
+
+  function money(v) { return v == null ? 'Ask' : '$' + v.toFixed(2); }
+
+  // Works with no internet: matches what you typed against the menu.
+  function localAnswer(q) {
+    var t = q.toLowerCase();
+    if (VEG.test(t)) {
+      var veg = ITEMS.filter(function (it) { return it.tags.indexOf('veg') > -1; });
+      return { reply: 'These are marked vegetarian on the menu (the seaweed rolls and waffle fries are vegan too). Vegetable kimbap and the tofu mayo bowl are good bets; ask the counter to confirm.', picks: veg.slice(0, 3).map(function (it) { return { name: it.name, why: it.desc }; }) };
+    }
+    var named = ITEMS.filter(function (it) { return t.indexOf(it.name.toLowerCase()) > -1 || t.indexOf(it.kr) > -1; });
+    if (named.length) {
+      return { reply: named.length > 1 ? 'Here they are:' : named[0].desc, picks: named.slice(0, 3).map(function (it) { return { name: it.name, why: it.desc }; }) };
+    }
+    var hits = CUES.filter(function (c) { return c.re.test(t); });
+    var avoid = hits.filter(function (c) { return c.avoid; }).map(function (c) { return c.avoid; });
+    hits = hits.filter(function (c) { return !(c.tag === 'spicy' && avoid.indexOf('spicy') > -1); });
+    var cheap = CHEAP.test(t);
+    var scored = ITEMS.map(function (it) {
+      var s = 0, why = '';
+      hits.forEach(function (c, i) { if (it.tags.indexOf(c.tag) > -1 || (c.tag === 'grill' && it.tags.indexOf('grill') > -1)) { s += 3 - Math.min(i, 2) * 0.5; if (!why) why = c.why; } });
+      if (avoid.indexOf('spicy') > -1 && it.tags.indexOf('spicy') > -1) s -= 10;
+      if (it.best) s += 0.6;
+      if (cheap) { if (it.price == null) s -= 1; else s += (26 - it.price) / 6; }
+      return { it: it, s: s, why: why || it.desc };
+    }).filter(function (x) { return hits.length || cheap ? x.s > 0.7 : x.it.best; })
+      .sort(function (a, b) { return b.s - a.s; }).slice(0, 3);
+    if (!scored.length) {
+      return { reply: "I'm not sure what you're after, so here's what everyone orders. Try telling me the weather, a craving, or your budget.", picks: ['Kimchi Fried Rice', 'Bibimbap', 'BBQ Short Rib Galbi'].map(function (n) { return { name: n, why: byName[n.toLowerCase()].desc }; }) };
+    }
+    var lead = hits.length ? hits[0].lead : 'Easy on the wallet:';
+    if (cheap && hits.length) lead = lead.replace(/:$/, ', on a budget:');
+    return { reply: lead, picks: scored.map(function (x) { return { name: x.it.name, why: x.why }; }) };
+  }
+
+  // Tries the real AI first (api/ask.js, once deployed); falls back to the menu matcher above.
+  function ask(q, history) {
+    if (location.protocol.indexOf('http') !== 0) return Promise.resolve(localAnswer(q));
+    return fetch('/api/ask', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q, history: history.slice(-6), menu: ITEMS.map(function (it) { return { name: it.name, korean: it.kr, price: it.price, description: it.desc, tags: it.tags }; }) })
+    }).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { return d && d.reply ? d : localAnswer(q); })
+      .catch(function () { return localAnswer(q); });
+  }
+
+  var fab = document.getElementById('askFab'), panel = document.getElementById('ask'), log = document.getElementById('askLog');
+  var form = document.getElementById('askForm'), input = document.getElementById('askInput'), history = [];
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function bubble(cls, html) { var d = document.createElement('div'); d.className = 'msg ' + cls; d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function open() { panel.hidden = false; fab.setAttribute('aria-expanded', 'true'); input.focus(); }
+  function close() { panel.hidden = true; fab.setAttribute('aria-expanded', 'false'); fab.focus(); }
+  fab.addEventListener('click', open);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-ask]'), function (b) { b.addEventListener('click', open); });
+  document.getElementById('askClose').addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) close(); });
+
+  function send(q) {
+    q = q.trim(); if (!q) return;
+    bubble('me', esc(q)); history.push({ role: 'user', content: q });
+    var wait = bubble('bot typing', 'Thinking about the menu…');
+    ask(q, history).then(function (a) {
+      var picks = (a.picks || []).map(function (p) { var it = byName[String(p.name).toLowerCase()]; return it ? { it: it, why: p.why } : null; }).filter(Boolean).slice(0, 3);
+      var html = esc(a.reply) + (picks.length ? '<div class="picks">' + picks.map(function (p) {
+        var img = DISH_IMG[p.it.name] ? '<img src="' + DISH_IMG[p.it.name] + '" alt="">' : '<span class="ph" aria-hidden="true">' + esc(p.it.kr.charAt(0)) + '</span>';
+        return '<div class="pick">' + img + '<div><b>' + esc(p.it.name) + '</b><small>' + esc(p.it.kr) + '</small><p>' + esc(p.why) + '</p></div><span class="cost">' + money(p.it.price) + '</span>' + (window.KGCart && KGCart.has(p.it.name) ? '<button type="button" class="add-btn sm" data-add="' + esc(p.it.name) + '">+ Add to order</button>' : '') + '</div>';
+      }).join('') + '</div>' : '');
+      wait.className = 'msg bot'; wait.innerHTML = html; if (window.KGCart) KGCart.sync(); log.scrollTop = log.scrollHeight;
+      history.push({ role: 'assistant', content: a.reply + ' ' + picks.map(function (p) { return p.it.name; }).join(', ') });
+    });
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); send(input.value); input.value = ''; });
+  Array.prototype.forEach.call(document.querySelectorAll('.ask-suggest button'), function (b) { b.addEventListener('click', function () { send(b.textContent); }); });
+})();
+
+
+// ---------- Ordering: cart, checkout, confirmation ----------
+// Prices come from menu.js, the same file the payment server reads, so the two can't disagree.
+// On the live site, "Place order" hands off to Stripe's secure payment page (api/checkout.js).
+// Anywhere else (this file opened locally, or no payment keys yet) it runs as a clearly labeled demo.
+(function () {
+  var TAX_RATE = 0.1025;          // Berkeley sales tax; confirm with the restaurant's accountant
+  var DELIVERY_FEE = 4.99;        // example only; the real fee is quoted by DoorDash Drive or Uber Direct
+  var IMG = (typeof DISH_IMG !== 'undefined') ? DISH_IMG : {};
+  var PRICE = {}, KR = {};
+  MENU.forEach(function (c) { c.items.forEach(function (it) { if (it[2] != null) { PRICE[it[0]] = it[2]; KR[it[0]] = it[1]; } }); });
+
+  var state = { items: {}, mode: 'pickup', step: 'bag', order: null };
+  try { var saved = JSON.parse(localStorage.getItem('kg-cart') || 'null'); if (saved && saved.items) { state.items = saved.items; state.mode = saved.mode || 'pickup'; } } catch (e) {}
+  Object.keys(state.items).forEach(function (n) { if (!(n in PRICE)) delete state.items[n]; });
+  function save() { try { localStorage.setItem('kg-cart', JSON.stringify({ items: state.items, mode: state.mode })); } catch (e) {} }
+
+  var cart = document.getElementById('cart'), scrim = document.getElementById('cartScrim');
+  var body = document.getElementById('cartBody'), foot = document.getElementById('cartFoot'), toast = document.getElementById('toast');
+  var lastFocus = null, toastTimer = null, trackTimer = null;
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function money(v) { return '$' + v.toFixed(2); }
+  function count() { return Object.keys(state.items).reduce(function (n, k) { return n + state.items[k]; }, 0); }
+  function totals() {
+    var sub = Object.keys(state.items).reduce(function (s, k) { return s + PRICE[k] * state.items[k]; }, 0);
+    var fee = state.mode === 'delivery' && sub > 0 ? DELIVERY_FEE : 0;
+    var tax = Math.round(sub * TAX_RATE * 100) / 100;
+    return { sub: sub, fee: fee, tax: tax, total: sub + fee + tax };
+  }
+  function badge() {
+    var n = count();
+    Array.prototype.forEach.call(document.querySelectorAll('.cart-count'), function (b) { b.textContent = n; b.hidden = !n; });
+    sync();
+  }
+  // Every "Add" button on the page mirrors the cart: in the order → "✓ Added" with − qty +; not in it → "+ Add"
+  function sync() {
+    Array.prototype.forEach.call(document.querySelectorAll('.add-btn[data-add]'), function (b) {
+      var name = b.getAttribute('data-add'), qty = state.items[name] || 0, wrap = b.parentNode, step;
+      if (!wrap.classList.contains('add-wrap')) {
+        wrap = document.createElement('span'); wrap.className = 'add-wrap';
+        b.parentNode.insertBefore(wrap, b); wrap.appendChild(b);
+        step = document.createElement('span'); step.className = 'added-step' + (b.classList.contains('sm') ? ' sm' : ''); step.hidden = true;
+        step.innerHTML = '<span class="ok">✓ Added</span><span class="qty"><button type="button" data-dec="' + esc(name) + '" aria-label="One less ' + esc(name) + '">−</button><span class="q"></span><button type="button" data-inc="' + esc(name) + '" aria-label="One more ' + esc(name) + '">+</button></span>';
+        wrap.appendChild(step);
+      }
+      step = wrap.querySelector('.added-step');
+      b.hidden = qty > 0; step.hidden = !qty;
+      step.querySelector('.q').textContent = qty;
+      step.setAttribute('aria-label', name + ': ' + qty + ' in your order');
+    });
+  }
+
+  function add(name) {
+    if (!(name in PRICE)) return;
+    state.items[name] = (state.items[name] || 0) + 1; save(); badge();
+    showToast(name);
+    if (!cart.hidden) render();
+  }
+  function showToast(name) {
+    toast.innerHTML = '<span>Added <b>' + esc(name) + '</b> · ' + count() + ' in your order</span><button type="button" data-open-cart>View order</button>';
+    toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function () { toast.hidden = true; }, 3200);
+  }
+
+  function open() {
+    if (state.step === 'done' && !state.order) state.step = 'bag';
+    lastFocus = document.activeElement; cart.hidden = false; scrim.hidden = false; toast.hidden = true;
+    document.body.style.overflow = 'hidden'; render();
+    document.getElementById('cartClose').focus();
+  }
+  function close() {
+    cart.hidden = true; scrim.hidden = true; document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function stepBar() {
+    Array.prototype.forEach.call(cart.querySelectorAll('.steps span'), function (s) { s.classList.toggle('on', s.getAttribute('data-step') === state.step); });
+  }
+  function totalsHtml(t) {
+    return '<div class="totals"><span>Subtotal</span><span>' + money(t.sub) + '</span>' +
+      (state.mode === 'delivery' ? '<span>Delivery <span class="muted">(example fee)</span></span><span>' + money(t.fee) + '</span>' : '') +
+      '<span>Est. tax <span class="muted">(10.25%)</span></span><span>' + money(t.tax) + '</span>' +
+      '<span class="t">Total</span><span class="t">' + money(t.total) + '</span></div>';
+  }
+
+  function renderBag() {
+    var names = Object.keys(state.items);
+    if (!names.length) {
+      body.innerHTML = '<div class="empty"><span class="big">텅~</span><b>Your order is empty</b><p>Add dishes from Best sellers or the menu. Not sure? Ask the 뭐 먹지? helper.</p><a class="btn cream" href="#menu" data-close-cart>See the menu</a></div>';
+      foot.innerHTML = ''; return;
+    }
+    body.innerHTML = names.map(function (n) {
+      var img = IMG[n] ? '<img src="' + IMG[n] + '" alt="">' : '<span class="ph" aria-hidden="true">' + esc(KR[n].charAt(0)) + '</span>';
+      return '<div class="line">' + img + '<div><b>' + esc(n) + '</b><small>' + esc(KR[n]) + '</small><br>' +
+        '<span class="qty"><button type="button" data-dec="' + esc(n) + '" aria-label="One less ' + esc(n) + '">−</button><span>' + state.items[n] + '</span><button type="button" data-inc="' + esc(n) + '" aria-label="One more ' + esc(n) + '">+</button></span></div>' +
+        '<span class="amt">' + money(PRICE[n] * state.items[n]) + '</span></div>';
+    }).join('') +
+      '<div class="mode" role="group" aria-label="Pickup or delivery"><button type="button" data-mode="pickup" aria-pressed="' + (state.mode === 'pickup') + '">Pickup</button><button type="button" data-mode="delivery" aria-pressed="' + (state.mode === 'delivery') + '">Delivery</button></div>' +
+      '<p class="mode-note">' + (state.mode === 'pickup' ? 'Pick up at the counter, 2517 Durant Ave. Usually ready in about 15 minutes.' : 'Delivered by a DoorDash or Uber driver the restaurant books for you. Around Berkeley, usually 30–45 minutes.') + '</p>';
+    var t = totals();
+    foot.innerHTML = totalsHtml(t) + '<button type="button" class="btn red" data-go="details">Continue to checkout</button>';
+  }
+
+  function slots() {
+    var out = ['<option value="asap">As soon as possible (~15 min)</option>'], d = new Date();
+    d.setMinutes(Math.ceil((d.getMinutes() + 30) / 15) * 15, 0, 0);
+    for (var i = 0; i < 8; i++) { out.push('<option>' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '</option>'); d.setMinutes(d.getMinutes() + 15); }
+    return out.join('');
+  }
+  function renderDetails() {
+    var t = totals(), del = state.mode === 'delivery';
+    body.innerHTML = '<form class="fields" id="checkoutForm" novalidate>' +
+      '<label for="coName">Name<input id="coName" autocomplete="name" required placeholder="First name and last initial"></label>' +
+      '<label for="coPhone">Phone<input id="coPhone" type="tel" autocomplete="tel" required placeholder="(510) 555-0123"></label>' +
+      (del
+        ? '<div class="two"><label for="coAddr">Street address<input id="coAddr" autocomplete="street-address" required placeholder="2400 Durant Ave"></label><label for="coApt">Apt / unit<input id="coApt" autocomplete="address-line2"></label></div>' +
+          '<label for="coNote">Note for the driver<textarea id="coNote" rows="2" placeholder="Gate code, building name…"></textarea></label>'
+        : '<label for="coTime">Pickup time<select id="coTime">' + slots() + '</select></label>') +
+      '<div class="pay"><b>Payment</b><p>Card, Apple Pay or Google Pay on Stripe\'s secure page. This site never sees or stores your card number.</p><span class="demo-tag">Prototype: no real charge</span></div>' +
+      '<span class="form-err" id="coErr" role="alert"></span></form>';
+    foot.innerHTML = totalsHtml(t) + '<button type="submit" form="checkoutForm" class="btn red" id="placeBtn">Place order · ' + money(t.total) + '</button><button type="button" class="linkish" data-go="bag">← Back to your order</button>';
+    var form = document.getElementById('checkoutForm');
+    form.addEventListener('submit', place);
+    form.addEventListener('input', function (e) { e.target.classList.remove('err'); });
+  }
+
+  function place(e) {
+    e.preventDefault();
+    var f = { name: document.getElementById('coName'), phone: document.getElementById('coPhone'), addr: document.getElementById('coAddr') };
+    var bad = [];
+    if (f.name.value.trim().length < 2) bad.push(f.name);
+    if (f.phone.value.replace(/\D/g, '').length < 10) bad.push(f.phone);
+    if (f.addr && f.addr.value.trim().length < 5) bad.push(f.addr);
+    [f.name, f.phone, f.addr].forEach(function (x) { if (x) x.classList.toggle('err', bad.indexOf(x) > -1); });
+    if (bad.length) { document.getElementById('coErr').textContent = bad[0] === f.phone ? 'Enter a 10-digit phone number so the restaurant can text you.' : bad[0] === f.name ? 'Add your name for the order.' : 'Add a street address for delivery.'; bad[0].focus(); return; }
+    var btn = document.getElementById('placeBtn'); btn.disabled = true; btn.textContent = 'Placing order…';
+    var timeEl = document.getElementById('coTime');
+    var order = {
+      items: Object.keys(state.items).map(function (n) { return { name: n, qty: state.items[n] }; }),
+      mode: state.mode, name: f.name.value.trim(), phone: f.phone.value.trim(),
+      address: f.addr ? f.addr.value.trim() + (document.getElementById('coApt').value ? ', ' + document.getElementById('coApt').value.trim() : '') : '',
+      note: document.getElementById('coNote') ? document.getElementById('coNote').value.trim() : '',
+      pickupTime: timeEl ? timeEl.value : ''
+    };
+    var live = location.protocol.indexOf('http') === 0
+      ? fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+      : Promise.resolve(null);
+    live.then(function (d) {
+      if (d && d.url) { location.href = d.url; return; }      // real payment page
+      setTimeout(function () { finish(order); }, 900);          // demo
+    });
+  }
+
+  function finish(order) {
+    var t = totals();
+    state.order = { no: 'KG-' + String(Math.floor(1000 + Math.random() * 9000)), order: order, total: t.total, at: Date.now(), items: Object.assign({}, state.items) };
+    state.items = {}; save(); badge(); state.step = 'done'; render();
+  }
+  function renderDone() {
+    var o = state.order, del = o.order.mode === 'delivery';
+    var stages = del ? ['Order received', 'Cooking', 'Driver picked it up', 'Delivered'] : ['Order received', 'Cooking', 'Ready at the counter'];
+    body.innerHTML = '<div class="done-hero"><span class="burst"><span>주문 완료!</span></span><h3>Order placed</h3><span class="no">#' + o.no + '</span>' +
+      '<span class="demo-tag">Prototype: no payment was taken</span></div>' +
+      '<ol class="track" id="track">' + stages.map(function (s, i) { return '<li class="' + (i === 0 ? 'done' : i === 1 ? 'now' : '') + '"><span class="dot"></span><span>' + s + '</span><time></time></li>'; }).join('') + '</ol>' +
+      '<div class="summary"><b>' + esc(o.order.name) + '</b>' +
+      (del ? '<span>Delivering to ' + esc(o.order.address) + '</span>' : '<span>Pickup ' + (o.order.pickupTime === 'asap' ? 'in about 15 minutes' : 'at ' + esc(o.order.pickupTime)) + ' · 2517 Durant Ave, Ste B</span>') +
+      '<span>' + Object.keys(o.items).map(function (n) { return o.items[n] + '× ' + esc(n); }).join(', ') + '</span>' +
+      '<span>Paid ' + money(o.total) + ' · a text with updates goes to ' + esc(o.order.phone) + '</span></div>';
+    foot.innerHTML = '<button type="button" class="btn cream" data-new>Start a new order</button>';
+    // Demo progress: each stage lights up a few seconds apart
+    clearInterval(trackTimer); var i = 1;
+    var lis = body.querySelectorAll('#track li'); lis[0].querySelector('time').textContent = 'now';
+    trackTimer = setInterval(function () {
+      if (i >= lis.length) { clearInterval(trackTimer); return; }
+      lis[i].className = 'done'; lis[i].querySelector('time').textContent = '+' + (i * (del ? 12 : 6)) + ' min';
+      i++; if (lis[i]) lis[i].className = 'now';
+    }, 2500);
+  }
+
+  function render() {
+    stepBar();
+    if (state.step === 'details' && !count()) state.step = 'bag';
+    if (state.step === 'bag') renderBag(); else if (state.step === 'details') renderDetails(); else renderDone();
+  }
+
+  // One listener for every order control on the page
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-add],[data-open-cart],[data-close-cart],[data-inc],[data-dec],[data-mode],[data-go],[data-new]');
+    if (!t) return;
+    if (t.hasAttribute('data-add')) { e.preventDefault(); add(t.getAttribute('data-add')); }
+    else if (t.hasAttribute('data-open-cart')) { e.preventDefault(); open(); }
+    else if (t.hasAttribute('data-close-cart')) { close(); }
+    else if (t.hasAttribute('data-inc')) { state.items[t.getAttribute('data-inc')]++; save(); badge(); render(); }
+    else if (t.hasAttribute('data-dec')) { var n = t.getAttribute('data-dec'); if (--state.items[n] <= 0) delete state.items[n]; save(); badge(); render(); }
+    else if (t.hasAttribute('data-mode')) { state.mode = t.getAttribute('data-mode'); save(); render(); }
+    else if (t.hasAttribute('data-go')) { state.step = t.getAttribute('data-go'); render(); body.scrollTop = 0; }
+    else if (t.hasAttribute('data-new')) { clearInterval(trackTimer); state.order = null; state.step = 'bag'; render(); }
+  });
+  document.getElementById('cartClose').addEventListener('click', close);
+  scrim.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !cart.hidden) close(); });
+
+  // "Add" buttons on the best-seller cards
+  Array.prototype.forEach.call(document.querySelectorAll('.card[data-dish]'), function (c) {
+    var n = c.getAttribute('data-dish'); if (!(n in PRICE)) return;
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'add-btn'; b.setAttribute('data-add', n);
+    b.setAttribute('aria-label', 'Add ' + n + ' to order'); b.textContent = '+ Add to order';
+    c.querySelector('.card-body').appendChild(b);
+  });
+
+  // Returning from Stripe's payment page
+  if (/[?&]paid=1/.test(location.search)) { state.items = {}; save(); }
+  badge();
+  window.KGCart = { add: add, open: open, sync: sync, has: function (n) { return n in PRICE; } };
+})();
+
+// ---------- Hours + live open status (Berkeley time) ----------
+(function () {
+  var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // minutes after midnight; values past 1440 run into the next day
+  var HOURS = { 0: [[720, 930], [1020, 1470]], 1: [[630, 1470]], 2: [[630, 1470]], 3: [[660, 1470]], 4: [[660, 1530]], 5: [[660, 1470]], 6: [[660, 1470]] };
+  function fmt(m) {
+    m = m % 1440; var h = Math.floor(m / 60), mm = m % 60, ap = h < 12 ? 'AM' : 'PM', h12 = h % 12 || 12;
+    return h12 + (mm ? ':' + String(mm).padStart(2, '0') : '') + ' ' + ap;
+  }
+  var now = new Date(), day = now.getDay(), mins = now.getHours() * 60 + now.getMinutes();
+  try {
+    var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(now);
+    var get = function (t) { return parts.filter(function (p) { return p.type === t; })[0].value; };
+    day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+    mins = (parseInt(get('hour'), 10) % 24) * 60 + parseInt(get('minute'), 10);
+  } catch (e) {}
+
+  var tbody = document.querySelector('#hoursTable tbody');
+  [1, 2, 3, 4, 5, 6, 0].forEach(function (d) {
+    var tr = document.createElement('tr'); if (d === day) tr.className = 'today';
+    tr.innerHTML = '<td>' + DAYS[d] + '</td><td>' + HOURS[d].map(function (s) { return fmt(s[0]) + ' – ' + fmt(s[1]); }).join(', ') + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  var open = null, prev = (day + 6) % 7;
+  HOURS[day].forEach(function (s) { if (mins >= s[0] && mins < s[1]) open = s[1]; });
+  HOURS[prev].forEach(function (s) { if (s[1] > 1440 && mins < s[1] - 1440) open = s[1]; });
+  var el = document.getElementById('status'), txt = document.getElementById('statusText');
+  if (open != null) { txt.textContent = 'Open now · until ' + fmt(open); }
+  else {
+    var next = null;
+    HOURS[day].forEach(function (s) { if (next == null && s[0] > mins) next = 'today ' + fmt(s[0]); });
+    if (next == null) next = 'at ' + fmt(HOURS[(day + 1) % 7][0][0]);
+    el.classList.add('closed'); txt.textContent = 'Closed · opens ' + next;
+  }
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="bowl-settings.js"></script>
+<script>
+// ---------- 3D bibimbap ----------
+(function () {
+  var hero = document.getElementById('top');
+  var stage = document.getElementById('stage');
+  var canvas = document.getElementById('bowl3d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Every adjustable number lives here. The tuner (?tune or Shift+T) edits these live;
+  //      bowl-settings.js can override them to make a tuned look the site's default. ----
+  var DEFAULTS = {
+    mode: 'hover', burst: 0, height: 1, spread: 1, speed: 0.07,
+    float: 0.08, floatSpeed: 1, spin: 1, autoRotate: 0, tiltFollow: 0.4,
+    bowlTilt: 0.5, scale: 1, offsetY: 0, toppingSize: 1,
+    fov: 35, zoom: 1, camHeight: 1.4, lookY: -0.95,
+    exposure: 1, key: 2.4, keyAngle: -34, rim: 1.6, fill: 0.5, env: 1, shadow: 0.38,
+    starburst: true, starburstSpin: true,
+    colors: { carrot: '#ff6a00', spinach: '#1c8a2c', cabbage: '#8e1fa0', radish: '#ffd23f', zucchini: '#9fe05a', beef: '#6e2a0c',
+      yolk: '#ffa000', eggWhite: '#ffffff', gochujang: '#d70f1c', rice: '#fbf7ee', pot: '#222020', tray: '#121212' }
+  };
+  function merge(into, from) {
+    if (!from || typeof from !== 'object') return into;
+    Object.keys(from).forEach(function (k) {
+      if (k === 'colors') Object.assign(into.colors, from.colors || {});
+      else if (k in into) into[k] = from[k];
+    });
+    return into;
+  }
+  var TUNE = /[?&#]tune\b/.test(location.search + location.hash);
+  var P = merge(JSON.parse(JSON.stringify(DEFAULTS)), window.BOWL_SETTINGS);
+  if (TUNE) { try { merge(P, JSON.parse(localStorage.getItem('kg-bowl-tune') || 'null')); } catch (e) {} }
+  function noGL() { canvas.hidden = true; document.getElementById('fallbackImg').hidden = false; stage.style.cursor = 'default'; }
+  if (!window.THREE) return noGL();
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); } catch (e) { return noGL(); }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  var aniso = renderer.capabilities.getMaxAnisotropy();
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+
+  // Colors are written as normal web hex values, then converted so they render as vivid as they look on screen
+  function C(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
+  function phys(o) {
+    if (o.color != null && !(o.color instanceof THREE.Color)) o.color = C(o.color);
+    if (o.sheen != null && !(o.sheen instanceof THREE.Color)) o.sheen = C(o.sheen);
+    return new THREE.MeshPhysicalMaterial(Object.assign({ roughness: 0.4, metalness: 0, clearcoat: 0, clearcoatRoughness: 0.08 }, o));
+  }
+  var seed = 21; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+  // Studio reflections
+  var pmrem = new THREE.PMREMGenerator(renderer), env = new THREE.Scene();
+  env.background = new THREE.Color(0x262018);
+  function softbox(w, h, x, y, z, p, tint) {
+    var col = new THREE.Color(tint || 0xffffff).multiplyScalar(p);
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide }));
+    m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
+  }
+  softbox(7, 3, 0, 7, 2, 6);
+  softbox(2.5, 6, -7, 1, 3, 3);
+  softbox(2.5, 6, 7, 2, -2, 2.4, 0xffe2a0);
+  softbox(10, 1.4, 0, -1.5, 7, 0.5, 0xffd400);   // yellow page bouncing up
+  scene.environment = pmrem.fromScene(env, 0.02).texture;
+
+  var key = new THREE.DirectionalLight(0xffffff, 2.4);
+  key.position.set(-4, 8, 6); key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 30 });
+  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; key.shadow.radius = 3;
+  scene.add(key);
+  var rim = new THREE.DirectionalLight(0xffffff, 1.6); rim.position.set(5, 4, -6); scene.add(rim);
+  var fill = new THREE.DirectionalLight(0xfff1c2, 0.5); fill.position.set(6, 1, 5); scene.add(fill);
+
+  function canvasTex(w, h, paint, color) {
+    var c = document.createElement('canvas'); c.width = w; c.height = h; paint(c.getContext('2d'), w, h);
+    var t = new THREE.CanvasTexture(c); t.anisotropy = aniso; if (color) t.encoding = THREE.sRGBEncoding;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+  }
+  var stoneBump = canvasTex(512, 512, function (g, w, h) {
+    var d = g.createImageData(w, h);
+    for (var i = 0; i < d.data.length; i += 4) { var v = 90 + Math.random() * 120; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+    g.putImageData(d, 0, 0);
+  });
+  stoneBump.repeat.set(5, 2);
+
+  function roundedBox(sx, sy, sz, r) {
+    var geo = new THREE.BoxGeometry(sx, sy, sz, 6, 6, 6), pos = geo.attributes.position, v = new THREE.Vector3(), inner = new THREE.Vector3();
+    var lx = sx / 2 - r, ly = sy / 2 - r, lz = sz / 2 - r;
+    for (var i = 0; i < pos.count; i++) {
+      v.fromBufferAttribute(pos, i);
+      inner.set(Math.max(-lx, Math.min(lx, v.x)), Math.max(-ly, Math.min(ly, v.y)), Math.max(-lz, Math.min(lz, v.z)));
+      v.sub(inner); if (v.lengthSq() > 0) v.normalize().multiplyScalar(r); v.add(inner);
+      pos.setXYZ(i, v.x, v.y, v.z);
+    }
+    geo.computeVertexNormals(); return geo;
+  }
+
+  var dish = new THREE.Group(); scene.add(dish);
+  var bowl = new THREE.Group(); bowl.position.y = -1.5; bowl.rotation.x = 0.5; dish.add(bowl);
+
+  // ---- Dolsot: thick stone pot ----
+  var potProfile = [[0,-0.78],[1.05,-0.78],[1.22,-0.7],[1.42,-0.35],[1.55,0.1],[1.6,0.42],[1.58,0.5],[1.46,0.5],[1.44,0.42],[1.38,0.02],[1.22,-0.38],[1.0,-0.52],[0,-0.54]]
+    .map(function (p) { return new THREE.Vector2(p[0], p[1]); });
+  var pot = new THREE.Mesh(new THREE.LatheGeometry(potProfile, 128),
+    phys({ color: 0x222020, roughness: 0.6, bumpMap: stoneBump, bumpScale: 0.02, clearcoat: 0.35, clearcoatRoughness: 0.45, side: THREE.DoubleSide }));
+  bowl.add(pot);
+  // Black plastic holder with handles, like the one at the restaurant
+  var trayProfile = [[0,-0.98],[1.5,-0.98],[1.85,-0.92],[1.98,-0.8],[1.94,-0.74],[1.72,-0.82],[0,-0.84]].map(function (p) { return new THREE.Vector2(p[0], p[1]); });
+  var plastic = phys({ color: 0x121212, roughness: 0.5, clearcoat: 0.35, clearcoatRoughness: 0.35, side: THREE.DoubleSide });
+  var tray = new THREE.Mesh(new THREE.LatheGeometry(trayProfile, 96), plastic);
+  bowl.add(tray);
+  var handleGeo = roundedBox(0.6, 0.12, 0.5, 0.05);
+  [-1, 1].forEach(function (sgn) { var hnd = new THREE.Mesh(handleGeo, plastic); hnd.position.set(sgn * 2.15, -0.86, 0); bowl.add(hnd); });
+
+  // ---- Rice bed ----
+  function surf(r) { return 0.24 - 0.06 * Math.pow(r / 1.42, 2); }
+  var riceMat = phys({ color: 0xfbf7ee, roughness: 0.55, clearcoat: 0.2 });
+  var bed = new THREE.Mesh(new THREE.LatheGeometry([[0.001,0.24],[0.6,0.23],[1.0,0.21],[1.3,0.19],[1.42,0.17],[1.42,0.0]].map(function (p) { return new THREE.Vector2(p[0], p[1]); }), 64),
+    phys({ color: 0xf3eee2, roughness: 0.7, side: THREE.DoubleSide }));
+  bowl.add(bed);
+  var grainGeo = new THREE.SphereGeometry(1, 10, 8);
+  var rice = new THREE.InstancedMesh(grainGeo, riceMat, 520);
+  var dummy = new THREE.Object3D();
+  for (var g = 0; g < 520; g++) {
+    var rr = Math.sqrt(rnd()) * 1.38, aa = rnd() * Math.PI * 2;
+    dummy.position.set(Math.cos(aa) * rr, surf(rr) + 0.015, Math.sin(aa) * rr);
+    dummy.rotation.set(rnd() * 0.6, rnd() * 6.28, rnd() * 0.6);
+    dummy.scale.set(0.034, 0.03, 0.075); dummy.updateMatrix(); rice.setMatrixAt(g, dummy.matrix);
+  }
+  rice.castShadow = rice.receiveShadow = true; bowl.add(rice);
+
+  // ---- Pieces that float out and settle back ----
+  var pieces = [], insts = [];
+  var V = THREE.Vector3;
+  function homeIn(a0, a1, rMin, rMax, lift) {
+    var a = a0 + (a1 - a0) * rnd(), r = rMin + (rMax - rMin) * Math.sqrt(rnd());
+    return new V(Math.cos(a) * r, surf(r) + lift, Math.sin(a) * r);
+  }
+  // Each topping rises as its own tight bunch above its spot in the bowl, so you can still tell carrots from spinach
+  function outNear(aMid, spread, hMin, hMax) {
+    var a = aMid + (rnd() - 0.5) * spread, R = 0.7 + rnd() * 0.9, h = hMin + rnd() * (hMax - hMin);
+    return new V(Math.cos(a) * R, h, Math.sin(a) * R * 0.75);
+  }
+  function addPiece(target, hp, he, op, s) {
+    pieces.push({
+      t: target, hp: hp, hq: new THREE.Quaternion().setFromEuler(he), op: op,
+      oe: new V(rnd() * 6.28, rnd() * 6.28, rnd() * 6.28),
+      sp: new V((rnd() - 0.5) * 0.0014, (rnd() - 0.5) * 0.0018, (rnd() - 0.5) * 0.0012),
+      phase: rnd() * 6.28, s: s || 1
+    });
+  }
+  function topping(geo, mat, count, a0, a1, lift, flat, scaleVar) {
+    var inst = new THREE.InstancedMesh(geo, mat, count);
+    inst.castShadow = inst.receiveShadow = true; bowl.add(inst); insts.push(inst);
+    var mid = (a0 + a1) / 2;
+    for (var i = 0; i < count; i++) {
+      var he = flat ? new THREE.Euler(-Math.PI / 2, 0, rnd() * 6.28) : new THREE.Euler(0, rnd() * 6.28, 0);
+      addPiece({ inst: inst, i: i }, homeIn(a0, a1, 0.42, 1.3, lift + rnd() * 0.05), he, outNear(mid, 0.7, 0.9, 2.7), 0.9 + rnd() * 0.25 * (scaleVar || 1));
+    }
+  }
+  var D = Math.PI / 180;
+  // carrots (front)
+  topping(roundedBox(0.05, 0.05, 0.46, 0.015), phys({ color: 0xff6a00, roughness: 0.3, clearcoat: 0.7 }), 24, 60 * D, 120 * D, 0.03);
+  // spinach
+  var leaf = new THREE.PlaneGeometry(0.3, 0.46, 4, 8), lp = leaf.attributes.position;
+  for (var i = 0; i < lp.count; i++) { var x = lp.getX(i), y = lp.getY(i); lp.setZ(i, -1.6 * x * x + Math.sin(y * 9) * 0.02); }
+  leaf.computeVertexNormals();
+  topping(leaf, phys({ color: 0x1c8a2c, roughness: 0.25, clearcoat: 1, side: THREE.DoubleSide }), 14, 120 * D, 180 * D, 0.04, true);
+  // purple cabbage
+  topping(roundedBox(0.045, 0.02, 0.42, 0.008), phys({ color: 0x8e1fa0, roughness: 0.3, clearcoat: 0.8 }), 26, 180 * D, 240 * D, 0.03);
+  // pickled radish
+  topping(roundedBox(0.07, 0.026, 0.28, 0.01), phys({ color: 0xffd23f, roughness: 0.18, clearcoat: 1 }), 14, 240 * D, 300 * D, 0.03);
+  // zucchini cubes
+  topping(roundedBox(0.13, 0.13, 0.13, 0.028), phys({ color: 0x9fe05a, roughness: 0.3, clearcoat: 0.8 }), 18, 300 * D, 360 * D, 0.06);
+  // bulgogi beef: crumpled glazed slices
+  var beefGeo = new THREE.BoxGeometry(0.4, 0.05, 0.28, 8, 1, 6), bp = beefGeo.attributes.position;
+  for (i = 0; i < bp.count; i++) bp.setY(i, bp.getY(i) + Math.sin(bp.getX(i) * 22) * 0.02 + Math.cos(bp.getZ(i) * 18) * 0.015);
+  beefGeo.computeVertexNormals();
+  topping(beefGeo, phys({ color: 0x6e2a0c, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.1 }), 13, 0, 60 * D, 0.05);
+  // sesame seeds sprinkled everywhere
+  var seedInst = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 8, 6), phys({ color: 0xfff1d0, roughness: 0.3, clearcoat: 0.5 }), 40);
+  seedInst.castShadow = true; bowl.add(seedInst); insts.push(seedInst);
+  for (i = 0; i < 40; i++) {
+    var sr = Math.sqrt(rnd()) * 1.3, sa = rnd() * 6.28;
+    addPiece({ inst: seedInst, i: i, scale: new V(0.022, 0.013, 0.036) }, new V(Math.cos(sa) * sr, surf(sr) + 0.13, Math.sin(sa) * sr), new THREE.Euler(0, rnd() * 6.28, 0), outNear(sa, 1.0, 1.4, 3.4), 1);
+  }
+  // a few grains of rice in the air
+  var flyRice = new THREE.InstancedMesh(grainGeo, riceMat, 24);
+  flyRice.castShadow = true; bowl.add(flyRice); insts.push(flyRice);
+  for (i = 0; i < 24; i++) {
+    var fr = Math.sqrt(rnd()) * 1.3, fa = rnd() * 6.28;
+    addPiece({ inst: flyRice, i: i, scale: new V(0.034, 0.03, 0.075) }, new V(Math.cos(fa) * fr, surf(fr) + 0.02, Math.sin(fa) * fr), new THREE.Euler(0, rnd() * 6.28, 0), outNear(fa, 1.0, 0.8, 2.4), 1);
+  }
+
+  // ---- Sunny-side-up egg ----
+  function blob(R, wob, ph) {
+    var s = new THREE.Shape();
+    for (var k = 0; k <= 72; k++) {
+      var a = k / 72 * Math.PI * 2, r = R * (1 + wob * Math.sin(a * 3 + ph) + wob * 0.6 * Math.sin(a * 5 + ph * 2));
+      if (k === 0) s.moveTo(Math.cos(a) * r, Math.sin(a) * r); else s.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    return s;
+  }
+  var egg = new THREE.Group();
+  var whiteGeo = new THREE.ExtrudeGeometry(blob(0.6, 0.06, 1), { depth: 0.04, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.035, bevelSegments: 4, curveSegments: 8 });
+  whiteGeo.rotateX(-Math.PI / 2);
+  egg.add(new THREE.Mesh(whiteGeo, phys({ color: 0xffffff, roughness: 0.25, clearcoat: 0.7 })));
+  var laceGeo = new THREE.ExtrudeGeometry(blob(0.67, 0.09, 2.3), { depth: 0.02, bevelEnabled: false });
+  laceGeo.rotateX(-Math.PI / 2);
+  var lace = new THREE.Mesh(laceGeo, phys({ color: 0xd2862a, roughness: 0.45, clearcoat: 0.4 })); lace.position.y = -0.015; egg.add(lace);
+  var yolk = new THREE.Mesh(new THREE.SphereGeometry(0.26, 48, 32), phys({ color: 0xffa000, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.02 }));
+  yolk.scale.set(1, 0.55, 1); yolk.position.set(0.07, 0.07, -0.05); egg.add(yolk);
+  egg.traverse(function (o) { if (o.isMesh) { o.castShadow = o.receiveShadow = true; } });
+  bowl.add(egg);
+  addPiece({ obj: egg }, new V(0.02, surf(0) + 0.02, 0.05), new THREE.Euler(0, 0.5, 0), new V(0, 3.0, 0.6), 1);
+  pieces[pieces.length - 1].oe.set(0.95, 0.4, -0.15);        // tilt the yolk toward the viewer
+  pieces[pieces.length - 1].sp.multiplyScalar(0.25);
+
+  // ---- Gochujang dollop ----
+  var gochu = new THREE.Mesh(new THREE.SphereGeometry(0.15, 32, 24), phys({ color: 0xd70f1c, roughness: 0.12, clearcoat: 1 }));
+  gochu.scale.set(1, 0.65, 1); gochu.castShadow = true; bowl.add(gochu);
+  addPiece({ obj: gochu }, new V(0.55, surf(0.6) + 0.1, 0.45), new THREE.Euler(0, 0, 0), new V(-1.6, 2.4, 1.0), 1);
+
+
+  bowl.traverse(function (o) { if (o.isMesh && o !== bed) { o.castShadow = true; o.receiveShadow = true; } });
+  bed.receiveShadow = true;
+
+  // Shadow on the page under the pot
+  var catcher = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: 0.38 }));
+  catcher.rotation.x = -Math.PI / 2; catcher.position.y = -2.62; catcher.receiveShadow = true; scene.add(catcher);
+
+  // ---- Sizing ----
+  function layout() {
+    var w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.fov = P.fov;
+    var half = Math.max(3.4, 3.2 / camera.aspect) * P.zoom;
+    var dist = half / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    camera.position.set(0, P.camHeight, dist); camera.lookAt(0, P.lookY, 0); camera.updateProjectionMatrix();
+    frame(performance.now(), true);
+  }
+  if (window.ResizeObserver) new ResizeObserver(layout).observe(stage); else window.addEventListener('resize', layout);
+
+  // ---- Interaction: the bowl rests, full, until you touch it.
+  // Mouse: hovering the pot itself makes it burst; leaving the bowl's area lets everything drop back in.
+  // Touch: tap the bowl to burst, tap again to settle. Drag sideways to spin it either way.
+  var tilt = { x: 0, y: 0 }, tiltT = { x: 0, y: 0 }, yaw = 0.3, vel = 0, dragging = false, lastX = 0, downX = 0;
+  var mix = 0, target = 0;
+  var ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), hitTargets = [pot, bed, tray];
+  function overBowl(e) {
+    var r = canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    return ray.intersectObjects(hitTargets, false).length > 0;
+  }
+  function setTarget(t) { target = t; if (reduce) { mix = t; frame(0, true); } }
+  stage.addEventListener('pointermove', function (e) {
+    var r = stage.getBoundingClientRect();
+    tiltT.x = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
+    tiltT.y = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
+    if (e.pointerType === 'mouse' && !dragging) {
+      var hit = overBowl(e);
+      if (hit && P.mode === 'hover') setTarget(1);
+      stage.style.cursor = hit || target ? 'grab' : 'default';
+    }
+  });
+  stage.addEventListener('pointerleave', function (e) {
+    tiltT.x = 0; tiltT.y = 0;
+    if (e.pointerType === 'mouse' && !dragging && P.mode === 'hover') setTarget(0);
+  });
+  stage.addEventListener('pointerdown', function (e) { dragging = true; lastX = downX = e.clientX; vel = 0; stage.classList.add('dragging'); });
+  window.addEventListener('pointermove', function (e) {
+    if (dragging) { var dx = e.clientX - lastX; lastX = e.clientX; vel = dx * 0.01; yaw += vel; }
+  }, { passive: true });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false; stage.classList.remove('dragging');
+    if (e.type === 'pointerup' && e.pointerType !== 'mouse' && Math.abs(e.clientX - downX) < 8 && overBowl(e) && P.mode === 'hover') setTarget(target ? 0 : 1);
+  }
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+
+  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  var tp = new V(), outP = new V(), eul = new THREE.Euler(), qb = new THREE.Quaternion(), tq = new THREE.Quaternion(), one = new V(1, 1, 1);
+  var last = 0;
+  function frame(time, still) {
+    var dt = Math.min(50, time - last || 16); last = time;
+    var live = (reduce || still) ? 0 : 1;
+    if (P.mode === 'open') target = 1;
+    else if (P.mode === 'closed') target = 0;
+    else if (P.mode === 'loop') target = Math.sin(time * 0.0007) > 0 ? 1 : 0;
+    else if (P.mode === 'manual') target = P.burst;
+    if (!reduce) {
+      mix += (target - mix) * P.speed;
+      if (!dragging) { vel *= 0.94; yaw += vel + P.autoRotate * dt / 1000; }
+      tilt.x += (tiltT.x - tilt.x) * 0.06; tilt.y += (tiltT.y - tilt.y) * 0.06;
+    } else { mix = target; tilt.x = tiltT.x; tilt.y = tiltT.y; }
+    var m = P.mode === 'manual' && !reduce ? mix : ease(mix);
+    for (var i = 0; i < pieces.length; i++) {
+      var pc = pieces[i], t = reduce ? 0 : time, ts = t * P.spin;
+      outP.set(pc.op.x * P.spread, pc.op.y * P.height, pc.op.z * P.spread);
+      tp.copy(pc.hp).lerp(outP, m);
+      tp.y += Math.sin(t * 0.0011 * P.floatSpeed + pc.phase) * P.float * m;
+      eul.set(pc.oe.x + ts * pc.sp.x, pc.oe.y + ts * pc.sp.y, pc.oe.z + ts * pc.sp.z); qb.setFromEuler(eul);
+      tq.copy(pc.hq).slerp(qb, m);
+      if (pc.t.inst) {
+        dummy.position.copy(tp); dummy.quaternion.copy(tq);
+        if (pc.t.scale) dummy.scale.copy(pc.t.scale); else dummy.scale.copy(one).multiplyScalar(pc.s);
+        if (pc.t.inst !== flyRice && pc.t.inst !== seedInst) dummy.scale.multiplyScalar(P.toppingSize);
+        dummy.updateMatrix(); pc.t.inst.setMatrixAt(pc.t.i, dummy.matrix);
+      } else { pc.t.obj.position.copy(tp); pc.t.obj.quaternion.copy(tq); pc.t.obj.scale.copy(pc.base).multiplyScalar(P.toppingSize); }
+    }
+    for (i = 0; i < insts.length; i++) insts[i].instanceMatrix.needsUpdate = true;
+    dish.rotation.y = yaw + tilt.x * P.tiltFollow;
+    dish.rotation.x = tilt.y * 0.12;
+    dish.position.y = P.offsetY + (reduce ? 0 : Math.sin(time * 0.0008 * P.floatSpeed) * P.float * m);
+    renderer.render(scene, camera);
+  }
+
+  // ---- Settings → scene ----
+  pieces.forEach(function (pc) { if (pc.t.obj) pc.base = pc.t.obj.scale.clone(); });
+  var MAT = {
+    carrot: insts[0].material, spinach: insts[1].material, cabbage: insts[2].material, radish: insts[3].material,
+    zucchini: insts[4].material, beef: insts[5].material, yolk: yolk.material, eggWhite: egg.children[0].material,
+    gochujang: gochu.material, rice: riceMat, pot: pot.material, tray: plastic
+  };
+  var allMats = [];
+  scene.traverse(function (o) { if (o.isMesh && o.material && o.material.isMeshStandardMaterial && allMats.indexOf(o.material) < 0) allMats.push(o.material); });
+  var burstEl = stage.querySelector('.bg-burst');
+  function apply() {
+    renderer.toneMappingExposure = P.exposure;
+    var az = THREE.MathUtils.degToRad(P.keyAngle);
+    key.intensity = P.key; key.position.set(Math.sin(az) * 7.2, 8, Math.cos(az) * 7.2);
+    rim.intensity = P.rim; fill.intensity = P.fill;
+    catcher.material.opacity = P.shadow;
+    bowl.rotation.x = P.bowlTilt;
+    dish.scale.setScalar(P.scale);
+    allMats.forEach(function (mt) { mt.envMapIntensity = P.env; });
+    Object.keys(MAT).forEach(function (k) { if (P.colors[k]) MAT[k].color.copy(C(P.colors[k])); });
+    bed.material.color.copy(C(P.colors.rice)).multiplyScalar(0.96);
+    burstEl.style.display = P.starburst ? '' : 'none';
+    burstEl.style.animationPlayState = P.starburstSpin ? 'running' : 'paused';
+    layout();
+  }
+  window.KGBowl = {
+    params: P, defaults: DEFAULTS, apply: apply,
+    replay: function () { if (P.mode !== 'hover') return; target = 1; setTimeout(function () { target = 0; }, 1800); }
+  };
+  function loadTuner() {
+    if (window.KGBowlTuner) return window.KGBowlTuner.toggle();
+    var s1 = document.createElement('script');
+    s1.src = 'https://cdn.jsdelivr.net/npm/lil-gui@0.19.2/dist/lil-gui.umd.min.js';
+    s1.onload = function () { var s2 = document.createElement('script'); s2.src = 'bowl-tuner.js'; document.body.appendChild(s2); };
+    document.body.appendChild(s1);
+  }
+  if (TUNE) loadTuner();
+  document.addEventListener('keydown', function (e) {
+    if (e.shiftKey && (e.key === 'T' || e.key === 't') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) loadTuner();
+  });
+
+  var visible = true;
+  if (window.IntersectionObserver) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(stage);
+  apply();
+  if (reduce) { frame(0, true); window.addEventListener('pointermove', function () { frame(0, true); }, { passive: true }); return; }
+  (function loop(t) { requestAnimationFrame(loop); if (visible) frame(t || 0, false); })(0);
+})();
+</script>
+</body>
+</html>

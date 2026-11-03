@@ -1,0 +1,9 @@
+{
+  "name": "kimchi-garden-site",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "stripe": "latest"
+  }
+}

@@ -1,0 +1,10 @@
+# Not part of the public repo
+moodboard/
+published/
+.claude/
+**/.claude/
+.vercel/
+node_modules/
+.env
+.env.*
+.DS_Store
